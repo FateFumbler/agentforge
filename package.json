@@ -1,0 +1,10 @@
+{
+  "name": "agentforge",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Gemma hackathon project for portable AI agent packaging and marketplace manifests.",
+  "scripts": {
+    "test": "echo \"tests pending\""
+  }
+}
