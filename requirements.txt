@@ -1,0 +1,2 @@
+# Runtime dependencies for AgentForge demos.
+# Current package uses Python stdlib only.
