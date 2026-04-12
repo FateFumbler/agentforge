@@ -9,3 +9,4 @@ __pycache__/
 .pytest_cache/
 .qa_tmp/
 .ipynb_checkpoints/
+.vercel
