@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publish Agent — AgentForge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'Segoe UI', 'Helvetica Neue', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    html { scroll-behavior: smooth; }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .nav-blur { backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+    .form-input { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+    .form-input:focus { border-color: #007aff; box-shadow: 0 0 0 4px rgba(0,122,255,0.1); outline: none; }
+    .drop-zone { transition: all 0.3s ease; }
+    .drop-zone.dragover { border-color: #007aff; background: rgba(0,122,255,0.04); }
+    .btn-primary { transition: all 0.3s ease; }
+    .btn-primary:hover { transform: scale(1.02); box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3); }
+    .btn-primary:disabled { opacity: 0.5; transform: none; box-shadow: none; cursor: not-allowed; }
+    .step-indicator { transition: all 0.3s ease; }
+    .step-indicator.active { background: #007aff; color: white; }
+    .step-indicator.completed { background: #34c759; color: white; }
+    html { transition: background-color 0.3s ease, color 0.3s ease; }
+  </style>
+</head>
+<body class="font-sans bg-white dark:bg-black text-[#1d1d1f] dark:text-[#f5f5f7] overflow-x-hidden">
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 nav-blur bg-white/80 dark:bg-black/80 border-b border-transparent dark:border-white/10">
+    <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
+      <a href="index.html" class="text-[#1d1d1f] dark:text-[#f5f5f7] font-semibold text-sm tracking-tight">AgentForge</a>
+      <div class="hidden md:flex items-center gap-8 text-xs text-[#6e6e73] dark:text-[#a1a1a6]">
+        <a href="marketplace.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Marketplace</a>
+        <a href="upload.html" class="text-[#1d1d1f] dark:text-[#f5f5f7]">Publish</a>
+        <a href="dashboard.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Dashboard</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <button id="darkToggle" class="text-[#6e6e73] dark:text-[#a1a1a6] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">
+          <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="4"/><path d="M10 1v2m0 14v2m-7-9H1m18 0h-2m-1.3-5.7l-1.4 1.4M5.7 14.3l-1.4 1.4m0-11.4l1.4 1.4m8.6 8.6l1.4 1.4" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.3 13.3A8 8 0 017.7 2.7a8 8 0 109.6 10.6z"/></svg>
+        </button>
+        <a href="dashboard.html" class="bg-[#007aff] hover:bg-[#0077ed] text-white text-xs font-medium px-4 py-1.5 rounded-full transition-all">Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <section class="pt-28 pb-8 md:pt-36 md:pb-12">
+    <div class="max-w-[680px] mx-auto px-6">
+      <h1 class="fade-in text-4xl md:text-5xl font-bold tracking-tight mb-3">Publish your agent.</h1>
+      <p class="fade-in fade-in-delay-1 text-lg text-[#6e6e73] dark:text-[#a1a1a6] font-light">Share your AI agent with the world. It takes less than a minute.</p>
+    </div>
+  </section>
+
+  <!-- Step Indicators -->
+  <section class="pb-8">
+    <div class="max-w-[680px] mx-auto px-6">
+      <div class="flex items-center gap-3">
+        <div class="step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold bg-[#f5f5f7] dark:bg-[#1c1c1e] text-[#6e6e73] dark:text-[#a1a1a6]" data-step="1">1</div>
+        <div class="flex-1 h-px bg-[#d2d2d7] dark:bg-[#424245]"></div>
+        <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold bg-[#f5f5f7] dark:bg-[#1c1c1e] text-[#6e6e73] dark:text-[#a1a1a6]" data-step="2">2</div>
+        <div class="flex-1 h-px bg-[#d2d2d7] dark:bg-[#424245]"></div>
+        <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold bg-[#f5f5f7] dark:bg-[#1c1c1e] text-[#6e6e73] dark:text-[#a1a1a6]" data-step="3">3</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <section class="pb-20">
+    <div class="max-w-[680px] mx-auto px-6">
+      <form id="publishForm" class="space-y-8">
+        <!-- Step 1: Agent Info -->
+        <div id="step1" class="space-y-6">
+          <div class="fade-in">
+            <h2 class="text-2xl font-semibold mb-6">Agent details</h2>
+          </div>
+          <div class="fade-in">
+            <label class="block text-sm font-medium mb-2">Agent Name</label>
+            <input type="text" id="agentName" required placeholder="e.g., CodePilot" class="form-input w-full px-4 py-3 bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-xl border border-[#d2d2d7] dark:border-[#424245] text-sm placeholder:text-[#a1a1a6]">
+          </div>
+          <div class="fade-in">
+            <label class="block text-sm font-medium mb-2">Description</label>
+            <textarea id="agentDesc" required rows="3" placeholder="What does your agent do?" class="form-input w-full px-4 py-3 bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-xl border border-[#d2d2d7] dark:border-[#424245] text-sm placeholder:text-[#a1a1a6] resize-none"></textarea>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="fade-in">
+              <label class="block text-sm font-medium mb-2">Author</label>
+              <input type="text" id="agentAuthor" required placeholder="Your name" class="form-input w-full px-4 py-3 bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-xl border border-[#d2d2d7] dark:border-[#424245] text-sm placeholder:text-[#a1a1a6]">
+            </div>
+            <div class="fade-in">
+              <label class="block text-sm font-medium mb-2">Version</label>
+              <input type="text" id="agentVersion" placeholder="1.0.0" value="1.0.0" class="form-input w-full px-4 py-3 bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-xl border border-[#d2d2d7] dark:border-[#424245] text-sm placeholder:text-[#a1a1a6]">
+            </div>
+          </div>
+          <div class="fade-in">
+            <label class="block text-sm font-medium mb-2">Tags</label>
+            <input type="text" id="agentTags" placeholder="coding, automation, gemma" class="form-input w-full px-4 py-3 bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-xl border border-[#d2d2d7] dark:border-[#424245] text-sm placeholder:text-[#a1a1a6]">
+            <p class="text-xs text-[#a1a1a6] mt-1.5">Comma-separated tags to help others find your agent.</p>
+          </div>
+          <div class="flex justify-end pt-4">
+            <button type="button" onclick="goToStep(2)" class="btn-primary bg-[#007aff] hover:bg-[#0077ed] text-white text-sm font-medium px-6 py-2.5 rounded-full">Continue</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Upload -->
+        <div id="step2" class="space-y-6 hidden">
+          <div class="fade-in visible">
+            <h2 class="text-2xl font-semibold mb-2">Upload files</h2>
+            <p class="text-sm text-[#6e6e73] dark:text-[#a1a1a6] font-light mb-6">Drag and drop your agent files or use the scanner.</p>
+          </div>
+
+          <!-- Drop Zone -->
+          <div id="dropZone" class="drop-zone border-2 border-dashed border-[#d2d2d7] dark:border-[#424245] rounded-2xl p-12 text-center cursor-pointer">
+            <svg class="w-10 h-10 mx-auto text-[#a1a1a6] mb-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+            <p class="text-sm font-medium mb-1">Drop your agent files here</p>
+            <p class="text-xs text-[#a1a1a6]">or click to browse. Supports .zip, .tar.gz, or a directory</p>
+            <input type="file" id="fileInput" class="hidden" multiple>
+          </div>
+
+          <!-- Uploaded files list -->
+          <div id="fileList" class="space-y-2 hidden">
+          </div>
+
+          <!-- Divider -->
+          <div class="flex items-center gap-4 py-4">
+            <div class="flex-1 h-px bg-[#d2d2d7] dark:bg-[#424245]"></div>
+            <span class="text-xs text-[#a1a1a6] font-medium">OR</span>
+            <div class="flex-1 h-px bg-[#d2d2d7] dark:bg-[#424245]"></div>
+          </div>
+
+          <!-- Scanner -->
+          <div class="bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-2xl p-6">
+            <h3 class="text-sm font-semibold mb-2">Scan Workspace</h3>
+            <p class="text-xs text-[#6e6e73] dark:text-[#a1a1a6] font-light mb-4">Let AgentForge auto-discover agents in your workspace directory.</p>
+            <div class="flex gap-3">
+              <input type="text" id="workspacePath" placeholder="/path/to/workspace" class="form-input flex-1 px-4 py-2.5 bg-white dark:bg-[#2c2c2e] rounded-xl border border-[#d2d2d7] dark:border-[#424245] text-sm placeholder:text-[#a1a1a6]">
+              <button type="button" id="scanBtn" class="bg-[#007aff] hover:bg-[#0077ed] text-white text-sm font-medium px-5 py-2.5 rounded-xl transition-all">Scan</button>
+            </div>
+            <div id="scanResults" class="mt-4 hidden">
+              <div class="bg-white dark:bg-[#2c2c2e] rounded-xl p-4 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium">agents found</span>
+                  <span class="text-xs text-[#34c759] font-medium" id="scanCount">0</span>
+                </div>
+                <div id="scanList" class="space-y-1.5"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between pt-4">
+            <button type="button" onclick="goToStep(1)" class="text-sm font-medium px-6 py-2.5 rounded-full border border-[#d2d2d7] dark:border-[#424245] hover:bg-[#f5f5f7] dark:hover:bg-[#1c1c1e] transition-all">Back</button>
+            <button type="button" onclick="goToStep(3)" class="btn-primary bg-[#007aff] hover:bg-[#0077ed] text-white text-sm font-medium px-6 py-2.5 rounded-full">Continue</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Review & Publish -->
+        <div id="step3" class="space-y-6 hidden">
+          <div class="fade-in visible">
+            <h2 class="text-2xl font-semibold mb-2">Review & publish</h2>
+            <p class="text-sm text-[#6e6e73] dark:text-[#a1a1a6] font-light mb-6">Double-check everything before publishing.</p>
+          </div>
+
+          <div class="bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-2xl p-6 space-y-4">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-xs text-[#a1a1a6] mb-0.5">Name</p>
+                <p class="text-sm font-semibold" id="reviewName">—</p>
+              </div>
+              <div class="text-right">
+                <p class="text-xs text-[#a1a1a6] mb-0.5">Version</p>
+                <p class="text-sm font-semibold" id="reviewVersion">—</p>
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-[#a1a1a6] mb-0.5">Author</p>
+              <p class="text-sm font-semibold" id="reviewAuthor">—</p>
+            </div>
+            <div>
+              <p class="text-xs text-[#a1a1a6] mb-0.5">Description</p>
+              <p class="text-sm text-[#6e6e73] dark:text-[#a1a1a6] font-light" id="reviewDesc">—</p>
+            </div>
+            <div>
+              <p class="text-xs text-[#a1a1a6] mb-0.5">Tags</p>
+              <div id="reviewTags" class="flex flex-wrap gap-1.5 mt-1"></div>
+            </div>
+            <div>
+              <p class="text-xs text-[#a1a1a6] mb-0.5">Files</p>
+              <p class="text-sm text-[#6e6e73] dark:text-[#a1a1a6] font-light" id="reviewFiles">No files selected</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 p-4 bg-[#ff9500]/5 rounded-xl border border-[#ff9500]/20">
+            <svg class="w-5 h-5 text-[#ff9500] shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+            <p class="text-xs text-[#6e6e73] dark:text-[#a1a1a6]">Published agents are publicly visible and can be imported by anyone. Make sure you have the right to share all included code.</p>
+          </div>
+
+          <div class="flex justify-between pt-4">
+            <button type="button" onclick="goToStep(2)" class="text-sm font-medium px-6 py-2.5 rounded-full border border-[#d2d2d7] dark:border-[#424245] hover:bg-[#f5f5f7] dark:hover:bg-[#1c1c1e] transition-all">Back</button>
+            <button type="submit" id="publishBtn" class="btn-primary bg-[#007aff] hover:bg-[#0077ed] text-white text-sm font-medium px-8 py-2.5 rounded-full">Publish Agent</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm hidden">
+    <div class="bg-white dark:bg-[#1c1c1e] rounded-3xl p-8 max-w-md mx-6 text-center shadow-2xl">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[#34c759]/10 flex items-center justify-center">
+        <svg class="w-8 h-8 text-[#34c759]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+      </div>
+      <h3 class="text-xl font-semibold mb-2">Agent published!</h3>
+      <p class="text-sm text-[#6e6e73] dark:text-[#a1a1a6] font-light mb-6">Your agent is now live on the marketplace.</p>
+      <div class="flex gap-3 justify-center">
+        <a href="marketplace.html" class="text-sm font-medium px-6 py-2.5 rounded-full bg-[#007aff] text-white hover:bg-[#0077ed] transition-all">View in Marketplace</a>
+        <button onclick="document.getElementById('successModal').classList.add('hidden')" class="text-sm font-medium px-6 py-2.5 rounded-full border border-[#d2d2d7] dark:border-[#424245]">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#d2d2d7] dark:border-[#424245] py-8">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-[#6e6e73] dark:text-[#a1a1a6]">Copyright &copy; 2026 AgentForge. All rights reserved.</p>
+        <div class="flex items-center gap-6 text-xs text-[#6e6e73] dark:text-[#a1a1a6]">
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Privacy</a>
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Terms</a>
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode
+    const toggle = document.getElementById('darkToggle');
+    toggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    });
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Step navigation
+    let currentStep = 1;
+    function goToStep(step) {
+      document.getElementById('step' + currentStep).classList.add('hidden');
+      document.getElementById('step' + step).classList.remove('hidden');
+      
+      document.querySelectorAll('.step-indicator').forEach(s => {
+        const sNum = parseInt(s.dataset.step);
+        s.classList.remove('active','completed');
+        if (sNum < step) s.classList.add('completed');
+        else if (sNum === step) s.classList.add('active');
+      });
+      
+      currentStep = step;
+      if (step === 3) populateReview();
+    }
+
+    // File drop zone
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    let uploadedFiles = [];
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+    fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+    function handleFiles(files) {
+      uploadedFiles = [...uploadedFiles, ...Array.from(files)];
+      renderFileList();
+    }
+
+    function renderFileList() {
+      const list = document.getElementById('fileList');
+      if (uploadedFiles.length === 0) { list.classList.add('hidden'); return; }
+      list.classList.remove('hidden');
+      list.innerHTML = uploadedFiles.map((f, i) => `
+        <div class="flex items-center justify-between bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-xl px-4 py-2.5">
+          <div class="flex items-center gap-2 text-sm">
+            <svg class="w-4 h-4 text-[#007aff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+            ${f.name}
+            <span class="text-xs text-[#a1a1a6]">${(f.size / 1024).toFixed(1)} KB</span>
+          </div>
+          <button type="button" onclick="removeFile(${i})" class="text-[#a1a1a6] hover:text-[#ff3b30] transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function removeFile(i) {
+      uploadedFiles.splice(i, 1);
+      renderFileList();
+    }
+
+    // Scanner
+    document.getElementById('scanBtn').addEventListener('click', () => {
+      const path = document.getElementById('workspacePath').value;
+      if (!path) return;
+      const btn = document.getElementById('scanBtn');
+      btn.textContent = 'Scanning...';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Scan';
+        btn.disabled = false;
+        document.getElementById('scanResults').classList.remove('hidden');
+        document.getElementById('scanCount').textContent = '3';
+        document.getElementById('scanList').innerHTML = `
+          <div class="flex items-center gap-2 text-xs"><input type="checkbox" checked class="accent-[#007aff]"><span>code-assistant/</span></div>
+          <div class="flex items-center gap-2 text-xs"><input type="checkbox" checked class="accent-[#007aff]"><span>data-pipeline/</span></div>
+          <div class="flex items-center gap-2 text-xs"><input type="checkbox" class="accent-[#007aff]"><span>test-runner/</span></div>
+        `;
+      }, 1500);
+    });
+
+    // Review
+    function populateReview() {
+      document.getElementById('reviewName').textContent = document.getElementById('agentName').value || '—';
+      document.getElementById('reviewVersion').textContent = document.getElementById('agentVersion').value || '—';
+      document.getElementById('reviewAuthor').textContent = document.getElementById('agentAuthor').value || '—';
+      document.getElementById('reviewDesc').textContent = document.getElementById('agentDesc').value || '—';
+      const tags = document.getElementById('agentTags').value.split(',').map(t => t.trim()).filter(Boolean);
+      document.getElementById('reviewTags').innerHTML = tags.map(t => `<span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-[#007aff]/10 text-[#007aff] dark:text-[#2997ff]">${t}</span>`).join('') || '<span class="text-xs text-[#a1a1a6]">No tags</span>';
+      document.getElementById('reviewFiles').textContent = uploadedFiles.length > 0 ? uploadedFiles.map(f => f.name).join(', ') : 'No files selected';
+    }
+
+    // Submit
+    document.getElementById('publishForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('publishBtn');
+      btn.textContent = 'Publishing...';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Publish Agent';
+        btn.disabled = false;
+        document.getElementById('successModal').classList.remove('hidden');
+      }, 1500);
+    });
+
+    // Scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgentForge | Marketplace Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#ecedf6",
+                        "tertiary-fixed-dim": "#00ed89",
+                        "surface-dim": "#0b0e14",
+                        "on-tertiary": "#006437",
+                        "primary-fixed-dim": "#00deec",
+                        "on-secondary-fixed": "#41009a",
+                        "surface-tint": "#8ff5ff",
+                        "on-primary-fixed": "#003f43",
+                        "secondary-dim": "#874cff",
+                        "secondary-container": "#7000ff",
+                        "on-secondary-fixed-variant": "#6300e2",
+                        "error-dim": "#d7383b",
+                        "inverse-on-surface": "#52555c",
+                        "surface-container-highest": "#22262f",
+                        "tertiary-container": "#00fd93",
+                        "on-tertiary-fixed": "#004624",
+                        "on-secondary": "#290067",
+                        "on-error": "#490006",
+                        "surface-container-high": "#1c2028",
+                        "surface-variant": "#22262f",
+                        "on-primary": "#005d63",
+                        "on-surface-variant": "#a9abb3",
+                        "surface": "#0b0e14",
+                        "background": "#0b0e14",
+                        "surface-bright": "#282c36",
+                        "on-error-container": "#ffa8a3",
+                        "primary-fixed": "#00eefc",
+                        "secondary-fixed-dim": "#ceb9ff",
+                        "secondary-fixed": "#dac9ff",
+                        "on-primary-fixed-variant": "#005e64",
+                        "on-secondary-container": "#f8f1ff",
+                        "outline": "#73757d",
+                        "outline-variant": "#45484f",
+                        "on-background": "#ecedf6",
+                        "surface-container-low": "#10131a",
+                        "error": "#ff716c",
+                        "error-container": "#9f0519",
+                        "inverse-surface": "#f9f9ff",
+                        "tertiary-fixed": "#00fd93",
+                        "inverse-primary": "#006a71",
+                        "primary-dim": "#00deec",
+                        "on-primary-container": "#005359",
+                        "primary": "#8ff5ff",
+                        "surface-container": "#161a21",
+                        "primary-container": "#00eefc",
+                        "on-tertiary-container": "#005b31",
+                        "tertiary": "#a2ffbf",
+                        "tertiary-dim": "#00ed89",
+                        "on-tertiary-fixed-variant": "#006638",
+                        "secondary": "#ac89ff",
+                        "surface-container-lowest": "#000000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(34, 38, 47, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(115, 117, 125, 0.2);
+        }
+        .neon-glow-primary {
+            box-shadow: 0 0 15px rgba(143, 245, 255, 0.2);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#10131a] flex flex-col p-4 gap-2 z-50 shadow-2xl shadow-black/50">
+<div class="mb-8 px-4 py-6">
+<span class="font-['Space_Grotesk'] font-black text-[#8ff5ff] text-2xl tracking-tighter">AgentForge</span>
+<p class="text-[10px] uppercase tracking-[0.2em] text-secondary opacity-80 mt-1">Digital Alchemist</p>
+</div>
+<nav class="flex-grow flex flex-col gap-2">
+<!-- Marketplace is active -->
+<a class="bg-[#22262f] text-[#8ff5ff] rounded-xl font-bold flex items-center gap-3 px-4 py-3 transition-all duration-200 hover:translate-x-1 font-['Manrope'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span>Marketplace</span>
+</a>
+<a class="text-[#ecedf6] opacity-60 hover:opacity-100 hover:bg-[#22262f] hover:text-[#8ff5ff] rounded-xl flex items-center gap-3 px-4 py-3 transition-all duration-200 hover:translate-x-1 font-['Manrope'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span>My Agents</span>
+</a>
+<a class="text-[#ecedf6] opacity-60 hover:opacity-100 hover:bg-[#22262f] hover:text-[#8ff5ff] rounded-xl flex items-center gap-3 px-4 py-3 transition-all duration-200 hover:translate-x-1 font-['Manrope'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+<span>Upload</span>
+</a>
+<a class="text-[#ecedf6] opacity-60 hover:opacity-100 hover:bg-[#22262f] hover:text-[#8ff5ff] rounded-xl flex items-center gap-3 px-4 py-3 transition-all duration-200 hover:translate-x-1 font-['Manrope'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<button class="mt-auto mb-4 bg-gradient-to-br from-primary to-primary-container text-on-primary-fixed font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 neon-glow-primary">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+<span>New Forge</span>
+</button>
+<div class="pt-4 border-t border-outline-variant/15">
+<a class="text-[#ecedf6] opacity-60 hover:opacity-100 hover:bg-[#22262f] hover:text-[#8ff5ff] rounded-xl flex items-center gap-3 px-4 py-3 transition-all duration-200 font-['Manrope'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span>Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="w-full sticky top-0 z-40 bg-[#0b0e14] flex items-center justify-between px-8 py-4">
+<div class="flex items-center flex-1 max-w-2xl bg-surface-container-lowest rounded-full px-4 py-2 border border-outline-variant/10 focus-within:border-primary/30 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant mr-3" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body placeholder:text-on-surface-variant/50" placeholder="Search the forge for specialized agents..." type="text"/>
+</div>
+<div class="flex items-center gap-6 ml-8">
+<button class="relative text-[#ecedf6] opacity-70 hover:opacity-100 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right">
+<p class="text-sm font-bold font-headline leading-none">Alchemist_01</p>
+<p class="text-[10px] text-primary leading-none mt-1">PRO PLAN</p>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 group-hover:border-primary transition-all">
+<img alt="User" class="w-full h-full object-cover" data-alt="close-up portrait of a digital artist with holographic lighting effects and futuristic elements" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA62Rf-kAjmYJnz6OSRMabvLiubaHdQgzGIBlXJ9VPm6jKn7mgb-ihay1oGnhlmz4Pj_gf462fbECJHVvDk6mF9gE5k1BWD29twF5KmC-rgN0KDkU10HC5kc8qS-izPtoSTHAoE0ZQ_OLNyC0l6Uln50SwKMHkcKgmfu2sAzh1NInTo4EvB3La67LR8krkmaARpwtWpXkLAkDaapxiyQHni4mwXaskt5wngJWLMB78SBtKJcyc0YgHcsIfaw5M1x7miibqf-9Iw-8U"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-8">
+<!-- Hero / Featured Section -->
+<section class="mb-12 relative overflow-hidden rounded-3xl h-[300px] flex items-center px-12 bg-surface-container-low">
+<div class="absolute inset-0 z-0">
+<img alt="Cyberpunk background" class="w-full h-full object-cover opacity-30 mix-blend-screen" data-alt="abstract flowing blue and purple liquid metal curves with glowing digital grid and neon sparks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp0junJCv5i3HIlVkbTGPkb9SNvTa64l3jYL5suDX-IbMk_5cg3Ek3YLLwNm9OsGjIA9NNgrdH0blU5QwqYW9OKDKhjO9UN-s1SByMMO6QOUCv6CLCuf2GQKrWQ9uqr8T0CzQpaOd5653nC-_9FfihMkGWob4uQzxTlP71xBpnzzMLtXEksXL9n59PkOg5CZr8TgqWB_Zk1acu-OnIoclxT7utIMmsBtqnaPieLvh_Qt3VKpqv7wYHMoyzA1B_UZKBbQpl6OohAvs"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-xl">
+<div class="flex items-center gap-2 mb-4">
+<span class="px-2 py-1 bg-tertiary-container/10 border border-tertiary-container/30 text-tertiary text-[10px] font-bold tracking-widest uppercase rounded">New Release</span>
+<span class="text-on-surface-variant text-xs font-medium">Neural Engine v4.2</span>
+</div>
+<h1 class="text-5xl font-black font-headline tracking-tighter text-on-surface mb-4 leading-none">
+                        Project <span class="text-primary">Aether-9</span>
+</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed mb-6 font-light">
+                        The world's first autonomous research agent capable of cross-chain data synthesis and real-time predictive modeling.
+                    </p>
+<div class="flex gap-4">
+<button class="px-8 py-3 bg-primary text-on-primary-fixed rounded-xl font-bold font-headline transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20">
+                            Initialize Agent
+                        </button>
+<button class="px-8 py-3 glass-panel text-on-surface rounded-xl font-bold font-headline transition-all hover:bg-surface-variant">
+                            View Documentation
+                        </button>
+</div>
+</div>
+</section>
+<!-- Trending Section -->
+<div class="flex items-center justify-between mb-8">
+<div>
+<h2 class="text-3xl font-black font-headline tracking-tight text-on-surface">Trending Agents</h2>
+<p class="text-on-surface-variant text-sm mt-1">Synthesized by the community in the last 24 hours.</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 glass-panel rounded-lg hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+</button>
+<button class="p-2 bg-surface-container-low rounded-lg text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="list">list</span>
+</button>
+</div>
+</div>
+<!-- Agents Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="glass-panel rounded-2xl p-5 flex flex-col group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center border border-secondary/20">
+<span class="material-symbols-outlined text-secondary" data-icon="terminal">terminal</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-2 py-1 rounded-md border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-xs" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.9</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-xl text-on-surface mb-2 group-hover:text-primary transition-colors">CodeWhisper XL</h3>
+<p class="text-on-surface-variant text-sm line-clamp-2 mb-6">Advanced python optimization agent specialized in heavy-duty data pipelines and ML architecture.</p>
+<div class="mt-auto pt-4 flex flex-col gap-3">
+<div class="flex gap-2 mb-2 overflow-x-auto hide-scrollbar">
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">Python</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">MLOps</span>
+</div>
+<button class="w-full py-2.5 bg-surface-container-lowest border border-primary/20 text-primary font-bold rounded-xl hover:bg-primary hover:text-on-primary-fixed transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+                            Deploy
+                        </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-panel rounded-2xl p-5 flex flex-col group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 text-primary">
+<span class="material-symbols-outlined" data-icon="shield_with_heart">shield_with_heart</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-2 py-1 rounded-md border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-xs" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.7</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-xl text-on-surface mb-2 group-hover:text-primary transition-colors">CyberSentinel</h3>
+<p class="text-on-surface-variant text-sm line-clamp-2 mb-6">Real-time network vulnerability scanner that maps attack surfaces using recursive LLM logic.</p>
+<div class="mt-auto pt-4 flex flex-col gap-3">
+<div class="flex gap-2 mb-2 overflow-x-auto hide-scrollbar">
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">SecOps</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">Network</span>
+</div>
+<button class="w-full py-2.5 bg-surface-container-lowest border border-primary/20 text-primary font-bold rounded-xl hover:bg-primary hover:text-on-primary-fixed transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                            Download
+                        </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-panel rounded-2xl p-5 flex flex-col group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center border border-tertiary/20 text-tertiary">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-2 py-1 rounded-md border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-xs" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">5.0</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-xl text-on-surface mb-2 group-hover:text-primary transition-colors">QuantForge AI</h3>
+<p class="text-on-surface-variant text-sm line-clamp-2 mb-6">Market sentiment analyzer for digital assets. Provides high-fidelity trade signaling data.</p>
+<div class="mt-auto pt-4 flex flex-col gap-3">
+<div class="flex gap-2 mb-2 overflow-x-auto hide-scrollbar">
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">FinTech</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">Trading</span>
+</div>
+<button class="w-full py-2.5 bg-surface-container-lowest border border-primary/20 text-primary font-bold rounded-xl hover:bg-primary hover:text-on-primary-fixed transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+                            Deploy
+                        </button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="glass-panel rounded-2xl p-5 flex flex-col group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-error/10 rounded-xl flex items-center justify-center border border-error/20 text-error">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-2 py-1 rounded-md border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-xs" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.8</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-xl text-on-surface mb-2 group-hover:text-primary transition-colors">Neuro-Narrator</h3>
+<p class="text-on-surface-variant text-sm line-clamp-2 mb-6">Creative writing agent that uses associative neural links to generate deep lore for gaming.</p>
+<div class="mt-auto pt-4 flex flex-col gap-3">
+<div class="flex gap-2 mb-2 overflow-x-auto hide-scrollbar">
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">Creative</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">GameDev</span>
+</div>
+<button class="w-full py-2.5 bg-surface-container-lowest border border-primary/20 text-primary font-bold rounded-xl hover:bg-primary hover:text-on-primary-fixed transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                            Download
+                        </button>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="glass-panel rounded-2xl p-5 flex flex-col group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center border border-secondary/20 text-secondary">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-2 py-1 rounded-md border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-xs" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.6</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-xl text-on-surface mb-2 group-hover:text-primary transition-colors">ImageSynth 9</h3>
+<p class="text-on-surface-variant text-sm line-clamp-2 mb-6">Prompt engineering specialist designed to maximize visual fidelity in diffusion models.</p>
+<div class="mt-auto pt-4 flex flex-col gap-3">
+<div class="flex gap-2 mb-2 overflow-x-auto hide-scrollbar">
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">Visual</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">Prompts</span>
+</div>
+<button class="w-full py-2.5 bg-surface-container-lowest border border-primary/20 text-primary font-bold rounded-xl hover:bg-primary hover:text-on-primary-fixed transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+                            Deploy
+                        </button>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="glass-panel rounded-2xl p-5 flex flex-col group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 text-primary">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-2 py-1 rounded-md border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-xs" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.9</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-xl text-on-surface mb-2 group-hover:text-primary transition-colors">DataSieve Prime</h3>
+<p class="text-on-surface-variant text-sm line-clamp-2 mb-6">Unstructured data processing agent that converts raw noise into actionable SQL schemas.</p>
+<div class="mt-auto pt-4 flex flex-col gap-3">
+<div class="flex gap-2 mb-2 overflow-x-auto hide-scrollbar">
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">BigData</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">SQL</span>
+</div>
+<button class="w-full py-2.5 bg-surface-container-lowest border border-primary/20 text-primary font-bold rounded-xl hover:bg-primary hover:text-on-primary-fixed transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+                            Deploy
+                        </button>
+</div>
+</div>
+<!-- Card 7 -->
+<div class="glass-panel rounded-2xl p-5 flex flex-col group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center border border-tertiary/20 text-tertiary">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-2 py-1 rounded-md border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-xs" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.5</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-xl text-on-surface mb-2 group-hover:text-primary transition-colors">PolyGlot X</h3>
+<p class="text-on-surface-variant text-sm line-clamp-2 mb-6">Ultra-low latency translation agent preserving dialectic nuance across 120+ neural languages.</p>
+<div class="mt-auto pt-4 flex flex-col gap-3">
+<div class="flex gap-2 mb-2 overflow-x-auto hide-scrollbar">
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">NLP</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">i18n</span>
+</div>
+<button class="w-full py-2.5 bg-surface-container-lowest border border-primary/20 text-primary font-bold rounded-xl hover:bg-primary hover:text-on-primary-fixed transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                            Download
+                        </button>
+</div>
+</div>
+<!-- Card 8 -->
+<div class="glass-panel rounded-2xl p-5 flex flex-col group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center border border-secondary/20 text-secondary">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-2 py-1 rounded-md border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-xs" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.8</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-xl text-on-surface mb-2 group-hover:text-primary transition-colors">BioSynth AGI</h3>
+<p class="text-on-surface-variant text-sm line-clamp-2 mb-6">Specialized in protein folding simulations and biological pathway analysis for research labs.</p>
+<div class="mt-auto pt-4 flex flex-col gap-3">
+<div class="flex gap-2 mb-2 overflow-x-auto hide-scrollbar">
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">BioTech</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] text-on-surface-variant uppercase font-bold">Science</span>
+</div>
+<button class="w-full py-2.5 bg-surface-container-lowest border border-primary/20 text-primary font-bold rounded-xl hover:bg-primary hover:text-on-primary-fixed transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+                            Deploy
+                        </button>
+</div>
+</div>
+</div>
+<!-- Dashboard Stats Sidebar Overlay (Asymmetric UI Touch) -->
+<div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 glass-panel rounded-3xl p-8">
+<h3 class="font-headline font-bold text-2xl mb-6">Performance Pulse</h3>
+<div class="h-48 flex items-end gap-2 px-2">
+<!-- Pulse Monitor (Visual Only) -->
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[40%]" title="Mon"></div>
+<div class="flex-1 bg-primary/30 rounded-t-lg h-[65%]" title="Tue"></div>
+<div class="flex-1 bg-primary/40 rounded-t-lg h-[45%]" title="Wed"></div>
+<div class="flex-1 bg-primary/60 rounded-t-lg h-[85%] neon-glow-primary" title="Thu"></div>
+<div class="flex-1 bg-primary/50 rounded-t-lg h-[60%]" title="Fri"></div>
+<div class="flex-1 bg-primary/70 rounded-t-lg h-[95%] neon-glow-primary" title="Sat"></div>
+<div class="flex-1 bg-primary/40 rounded-t-lg h-[55%]" title="Sun"></div>
+</div>
+<div class="flex justify-between mt-4 text-on-surface-variant text-xs font-bold font-headline uppercase tracking-widest">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+<span>Sat</span>
+<span>Sun</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-3xl p-8 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-bold text-2xl mb-2">Forge Status</h3>
+<div class="flex items-center gap-2 mb-6">
+<div class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></div>
+<span class="text-tertiary-fixed-dim text-xs font-bold uppercase tracking-widest">All Cores Active</span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant text-sm">GPU Utilization</span>
+<span class="font-bold text-sm">74%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[74%]"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant text-sm">Neural Load</span>
+<span class="font-bold text-sm">42%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[42%]"></div>
+</div>
+</div>
+</div>
+<button class="w-full mt-8 py-3 bg-surface-container-highest hover:bg-surface-variant text-on-surface text-sm font-bold rounded-xl transition-all border border-outline-variant/10">
+                        System Diagnostics
+                    </button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

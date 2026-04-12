@@ -1,0 +1,118 @@
+{
+  "fileSummary": {
+    "configFileCount": 1,
+    "docFileCount": 2,
+    "markerFileCount": 5,
+    "otherFileCount": 1,
+    "skillFileCount": 0,
+    "testFileCount": 2,
+    "totalFiles": 11
+  },
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "d8dcb6040c6f4cc91d83ec5d41c2147774a3e506b57ff179359fafd3948b4581",
+      "sizeBytes": 31,
+      "size_bytes": 31
+    },
+    {
+      "path": "MEMORY.md",
+      "sha256": "0a2ea799999e7de0b73c048a1ff782d75bb64ace0ea1e9552162e5c81e0f41cf",
+      "sizeBytes": 44,
+      "size_bytes": 44
+    },
+    {
+      "path": "SOUL.md",
+      "sha256": "db27a0fe06d44028ece11805a0eb5bf7adbd2a95466dde031ffe9df5b838d08d",
+      "sizeBytes": 49,
+      "size_bytes": 49
+    },
+    {
+      "path": "TOOLS.md",
+      "sha256": "40feafbbf9de02308f6df3fc942cc6e2d12035630edd82405a3c53d905c5663b",
+      "sizeBytes": 27,
+      "size_bytes": 27
+    },
+    {
+      "path": "USER.md",
+      "sha256": "46aeae2a40a51d19a680a23b178d0c329a4a3f300a1195aeaba58cf0a5737365",
+      "sizeBytes": 65,
+      "size_bytes": 65
+    },
+    {
+      "path": "config.yaml",
+      "sha256": "89611db929fffb89c0dc709df5d81f22070603d5656c31c549af8ba9168f6323",
+      "sizeBytes": 27,
+      "size_bytes": 27
+    },
+    {
+      "path": "README.md",
+      "sha256": "35fe28e415d74649f2ecf84f7b93b214bc5a68ed0bda3c42dba2d920661e1de8",
+      "sizeBytes": 112,
+      "size_bytes": 112
+    },
+    {
+      "path": "docs/manifest-notes.md",
+      "sha256": "039612b0722bdd58f49a8d8deb9ddca5226f828d7f9400261ca16e3ed44a5e39",
+      "sizeBytes": 103,
+      "size_bytes": 103
+    },
+    {
+      "path": "tests/test_agent.py",
+      "sha256": "9b3cdff23c764bbc3e5d410d7295dd426684e1379b4781f751025626d98f9621",
+      "sizeBytes": 96,
+      "size_bytes": 96
+    },
+    {
+      "path": "tests/test_docs.py",
+      "sha256": "33179e2c53abfc33fab47bc9feb4c16b44d5de0eaf586dc9c1bb7f46ce4c6e1c",
+      "sizeBytes": 151,
+      "size_bytes": 151
+    },
+    {
+      "path": "workspace_scripts/agent.py",
+      "sha256": "c3b28af44c3320e0ddf8147f1af40e965a745372514a09cc51e4bfa153f908d1",
+      "sizeBytes": 68,
+      "size_bytes": 68
+    }
+  ],
+  "generatedAt": "2026-04-09T08:57:42.048278+00:00",
+  "manifestId": "a59bdb6fd48e2a3577e6ca760517a5205381a35dfa151f70b36c0234469e65c0",
+  "portablePolicy": {
+    "allowedCategories": [
+      "markerFiles",
+      "skillFiles",
+      "configFiles",
+      "docFiles",
+      "testFiles",
+      "otherFiles"
+    ],
+    "minimizeSecrets": true
+  },
+  "project": {
+    "markerFiles": [
+      "AGENTS.md",
+      "MEMORY.md",
+      "SOUL.md",
+      "TOOLS.md",
+      "USER.md"
+    ],
+    "name": "openclaw-sample",
+    "owner": "unknown",
+    "signature": "ccbadea954b101a236bc8d81d7bd32532f1a6c0dfc0e51d2c4aaf6a87378cb47",
+    "sourceRoot": "/home/Fate/.openclaw/workspace/projects/agentforge/examples/openclaw-sample"
+  },
+  "runtimeHints": {
+    "entrypoints": [],
+    "languages": [
+      "markdown",
+      "python",
+      "yaml"
+    ]
+  },
+  "schemaVersion": "1.0.0",
+  "tags": [
+    "agentforge",
+    "openclaw"
+  ]
+}

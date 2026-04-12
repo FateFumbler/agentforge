@@ -25,29 +25,30 @@ Core one-cell flow:
 2. **Install runtime**
    ```bash
    !python3 -m pip install -U pip
-   !pip install -r requirements.txt
+   !python3 -m pip install -r requirements.txt
    ```
 3. **Create output workspace**
    ```bash
-   !mkdir -p /kaggle/working/artifacts
+   !mkdir -p /kaggle/working/artifacts /kaggle/working/sample
+   !cp -R examples/openclaw-sample /kaggle/working/sample
    ```
 4. **Prepare sample input**
-  - Use a lightweight sample workspace (repo-provided at `examples/openclaw-sample`).
-  - Keep the working tree under `/kaggle/working/sample`.
+  - Use a lightweight sample workspace (repo-provided at `examples/openclaw-sample`, copied to `/kaggle/working/sample`).
 5. **Run pipeline**
   ```bash
-  !python3 -m agentforge.cli scan --input /kaggle/working/sample --output /kaggle/working/artifacts/scan.json
-   !python3 -m agentforge.cli generate-manifest --scan /kaggle/working/artifacts/scan.json --output /kaggle/working/artifacts/manifest.json
-   !python3 -m agentforge.cli preview --manifest /kaggle/working/artifacts/manifest.json --output /kaggle/working/artifacts/preview.json
-   !python3 -m agentforge.cli package --manifest /kaggle/working/artifacts/manifest.json --workspace /kaggle/working/sample --output /kaggle/working/agentforge-package.zip
+  !python3 -m agentforge.cli scan /kaggle/working/sample --output /kaggle/working/artifacts/scan.json
+  !python3 -m agentforge.cli generate-manifest --scan /kaggle/working/artifacts/scan.json --output /kaggle/working/artifacts/manifest.json
+  !python3 -m agentforge.cli validate-manifest --manifest /kaggle/working/artifacts/manifest.json
+  !python3 -m agentforge.cli preview --manifest /kaggle/working/artifacts/manifest.json --output /kaggle/working/artifacts/preview.json
+  !python3 -m agentforge.cli package --manifest /kaggle/working/artifacts/manifest.json --workspace /kaggle/working/sample --output /kaggle/working/artifacts/agentforge-package.zip
    ```
 6. **Optional restore check**
    ```bash
    !mkdir -p /kaggle/working/imported
-   !python3 -m agentforge.cli import --artifact /kaggle/working/agentforge-package.zip --output /kaggle/working/imported
+   !python3 -m agentforge.cli import --artifact /kaggle/working/artifacts/agentforge-package.zip --output /kaggle/working/imported --overwrite
    ```
 7. **Capture outputs**
-   - Download `agentforge-package.zip`
+   - Download `/kaggle/working/artifacts/agentforge-package.zip`
    - Save output JSONs and a screenshot of successful runs for writeup/video
 
 ## Resource controls
@@ -63,7 +64,7 @@ Core one-cell flow:
 - `scan.json` exists and is stable with deterministic signature.
 - `manifest.json` is parseable and schema-compliant.
 - `preview.json` contains non-empty summary fields for the sample workspace.
-- `agentforge-package.zip` writes successfully under `/kaggle/working`.
+- `agentforge-package.zip` writes successfully under `/kaggle/working/artifacts`.
 - `import` path reconstructs expected files and outputs no fatal errors.
 
 ### Example sample ingestion

@@ -65,6 +65,20 @@ Primary fit:
 5. build import flow
 6. build Kaggle demo notebook and instructions
 
+## Local setup note
+
+For local (non-Kaggle) verification, run in a virtual environment to avoid
+`PEP 668` system-Python restrictions.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -U pip
+python3 -m pip install -r requirements.txt
+```
+
+Use the same `python3 -m pip` invocations as the Kaggle pipeline so behavior stays reproducible.
+
 ## Public demo deliverables
 - `docs/submission-demo-checklist.md`: reproducible Kaggle setup + demo acceptance checklist.
 - `docs/kaggle-demo-notebook-path.md`: concrete notebook flow for the Kaggle execution path.

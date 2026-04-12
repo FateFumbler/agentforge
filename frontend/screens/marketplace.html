@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace — AgentForge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'Segoe UI', 'Helvetica Neue', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    html { scroll-behavior: smooth; }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in-delay-1 { transition-delay: 0.08s; }
+    .fade-in-delay-2 { transition-delay: 0.16s; }
+    .fade-in-delay-3 { transition-delay: 0.24s; }
+    .fade-in-delay-4 { transition-delay: 0.32s; }
+    .fade-in-delay-5 { transition-delay: 0.40s; }
+    .fade-in-delay-6 { transition-delay: 0.48s; }
+    .fade-in-delay-7 { transition-delay: 0.56s; }
+    .fade-in-delay-8 { transition-delay: 0.64s; }
+    .nav-blur { backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+    .agent-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .agent-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+    .dark .agent-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .tag { transition: background 0.2s ease; }
+    .tag:hover { background: rgba(0,122,255,0.1); }
+    .dark .tag:hover { background: rgba(41,151,255,0.15); }
+    .search-input:focus { box-shadow: 0 0 0 4px rgba(0,122,255,0.15); }
+    .filter-btn { transition: all 0.2s ease; }
+    .filter-btn.active { background: #007aff; color: white; }
+    html { transition: background-color 0.3s ease, color 0.3s ease; }
+  </style>
+</head>
+<body class="font-sans bg-white dark:bg-black text-[#1d1d1f] dark:text-[#f5f5f7] overflow-x-hidden">
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 nav-blur bg-white/80 dark:bg-black/80 border-b border-transparent dark:border-white/10">
+    <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
+      <a href="index.html" class="text-[#1d1d1f] dark:text-[#f5f5f7] font-semibold text-sm tracking-tight">AgentForge</a>
+      <div class="hidden md:flex items-center gap-8 text-xs text-[#6e6e73] dark:text-[#a1a1a6]">
+        <a href="marketplace.html" class="text-[#1d1d1f] dark:text-[#f5f5f7]">Marketplace</a>
+        <a href="upload.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Publish</a>
+        <a href="dashboard.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Dashboard</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <button id="darkToggle" class="text-[#6e6e73] dark:text-[#a1a1a6] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">
+          <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="4"/><path d="M10 1v2m0 14v2m-7-9H1m18 0h-2m-1.3-5.7l-1.4 1.4M5.7 14.3l-1.4 1.4m0-11.4l1.4 1.4m8.6 8.6l1.4 1.4" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.3 13.3A8 8 0 017.7 2.7a8 8 0 109.6 10.6z"/></svg>
+        </button>
+        <a href="upload.html" class="bg-[#007aff] hover:bg-[#0077ed] text-white text-xs font-medium px-4 py-1.5 rounded-full transition-all">Publish</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <section class="pt-28 pb-8 md:pt-36 md:pb-12">
+    <div class="max-w-[980px] mx-auto px-6">
+      <h1 class="fade-in text-4xl md:text-6xl font-bold tracking-tight mb-3">Marketplace</h1>
+      <p class="fade-in fade-in-delay-1 text-lg text-[#6e6e73] dark:text-[#a1a1a6] font-light">Discover and deploy AI agents built by the community.</p>
+    </div>
+  </section>
+
+  <!-- Search & Filters -->
+  <section class="pb-6">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div class="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+        <div class="relative w-full md:w-96">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e6e73] dark:text-[#a1a1a6]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input id="searchInput" type="text" placeholder="Search agents..." class="search-input w-full pl-10 pr-4 py-2.5 bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-xl border border-transparent focus:border-[#007aff] outline-none text-sm placeholder:text-[#a1a1a6] transition-all">
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button class="filter-btn active text-xs px-4 py-1.5 rounded-full bg-[#f5f5f7] dark:bg-[#1c1c1e] font-medium" data-filter="all">All</button>
+          <button class="filter-btn text-xs px-4 py-1.5 rounded-full bg-[#f5f5f7] dark:bg-[#1c1c1e] text-[#6e6e73] dark:text-[#a1a1a6] font-medium" data-filter="coding">Coding</button>
+          <button class="filter-btn text-xs px-4 py-1.5 rounded-full bg-[#f5f5f7] dark:bg-[#1c1c1e] text-[#6e6e73] dark:text-[#a1a1a6] font-medium" data-filter="data">Data</button>
+          <button class="filter-btn text-xs px-4 py-1.5 rounded-full bg-[#f5f5f7] dark:bg-[#1c1c1e] text-[#6e6e73] dark:text-[#a1a1a6] font-medium" data-filter="devops">DevOps</button>
+          <button class="filter-btn text-xs px-4 py-1.5 rounded-full bg-[#f5f5f7] dark:bg-[#1c1c1e] text-[#6e6e73] dark:text-[#a1a1a6] font-medium" data-filter="research">Research</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Agent Grid -->
+  <section class="pb-20">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div id="agentGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Cards populated by JS -->
+      </div>
+      <div id="emptyState" class="hidden text-center py-20">
+        <svg class="w-12 h-12 mx-auto text-[#d2d2d7] dark:text-[#424245] mb-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+        <p class="text-[#6e6e73] dark:text-[#a1a1a6]">No agents found. Try a different search.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#d2d2d7] dark:border-[#424245] py-8">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-[#6e6e73] dark:text-[#a1a1a6]">Copyright &copy; 2026 AgentForge. All rights reserved.</p>
+        <div class="flex items-center gap-6 text-xs text-[#6e6e73] dark:text-[#a1a1a6]">
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Privacy</a>
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Terms</a>
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode
+    const toggle = document.getElementById('darkToggle');
+    toggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    });
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Mock agents data
+    const agents = [
+      { name: 'CodePilot', description: 'Autonomous coding agent that writes, reviews, and refactors code across multiple languages.', author: 'sarah-dev', version: '2.1.0', downloads: 3420, tags: ['coding', 'automation'], color: '#007aff', icon: '⌨' },
+      { name: 'DataLens', description: 'Data analysis agent that generates insights, visualizations, and reports from datasets.', author: 'analytics-ai', version: '1.8.2', downloads: 2810, tags: ['data', 'visualization'], color: '#34c759', icon: '📊' },
+      { name: 'DeployBot', description: 'Zero-downtime deployment agent for containerized applications and serverless functions.', author: 'ops-team', version: '3.0.1', downloads: 1950, tags: ['devops', 'cloud'], color: '#ff9500', icon: '🚀' },
+      { name: 'ResearchGPT', description: 'Academic research agent that summarizes papers, finds citations, and drafts literature reviews.', author: 'lab-ai', version: '1.2.0', downloads: 4100, tags: ['research', 'nlp'], color: '#af52de', icon: '🔬' },
+      { name: 'TestForge', description: 'Automated test generation agent that creates comprehensive test suites from source code.', author: 'qa-automator', version: '2.5.0', downloads: 1640, tags: ['coding', 'testing'], color: '#ff3b30', icon: '✅' },
+      { name: 'DocuMind', description: 'Documentation agent that generates, maintains, and translates technical documentation.', author: 'tech-writer', version: '1.4.3', downloads: 980, tags: ['coding', 'nlp'], color: '#5856d6', icon: '📝' },
+      { name: 'PipelineAI', description: 'CI/CD pipeline builder that configures build, test, and deploy workflows from code analysis.', author: 'devops-corp', version: '2.0.0', downloads: 2230, tags: ['devops', 'automation'], color: '#007aff', icon: '⚙' },
+      { name: 'SentimentScope', description: 'Real-time sentiment analysis agent for social media, reviews, and customer feedback.', author: 'nlp-labs', version: '1.1.0', downloads: 1560, tags: ['data', 'nlp'], color: '#34c759', icon: '💭' },
+      { name: 'GraphWeaver', description: 'Knowledge graph construction agent that extracts entities and relationships from unstructured text.', author: 'graph-mind', version: '1.0.0', downloads: 720, tags: ['research', 'data'], color: '#ff9500', icon: '🕸' },
+    ];
+
+    const grid = document.getElementById('agentGrid');
+    const emptyState = document.getElementById('emptyState');
+    const searchInput = document.getElementById('searchInput');
+    let activeFilter = 'all';
+
+    function renderAgents(filteredAgents) {
+      grid.innerHTML = '';
+      if (filteredAgents.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+      filteredAgents.forEach((agent, i) => {
+        const card = document.createElement('a');
+        card.href = `agent-detail.html?name=${encodeURIComponent(agent.name)}`;
+        card.className = `agent-card fade-in visible block bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-2xl p-6 cursor-pointer`;
+        card.style.animationDelay = `${i * 0.05}s`;
+        card.innerHTML = `
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style="background: ${agent.color}15">${agent.icon}</div>
+            <span class="text-xs text-[#6e6e73] dark:text-[#a1a1a6] font-medium">v${agent.version}</span>
+          </div>
+          <h3 class="text-lg font-semibold mb-1">${agent.name}</h3>
+          <p class="text-sm text-[#6e6e73] dark:text-[#a1a1a6] font-light leading-relaxed mb-4 line-clamp-2">${agent.description}</p>
+          <div class="flex items-center justify-between">
+            <div class="flex gap-1.5">
+              ${agent.tags.map(t => `<span class="tag text-[10px] font-medium px-2.5 py-0.5 rounded-full bg-[#e8e8ed] dark:bg-[#2c2c2e] text-[#6e6e73] dark:text-[#a1a1a6]">${t}</span>`).join('')}
+            </div>
+            <div class="flex items-center gap-1 text-xs text-[#6e6e73] dark:text-[#a1a1a6]">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+              ${agent.downloads >= 1000 ? (agent.downloads / 1000).toFixed(1) + 'k' : agent.downloads}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterAgents() {
+      const query = searchInput.value.toLowerCase();
+      const filtered = agents.filter(a => {
+        const matchesSearch = a.name.toLowerCase().includes(query) || a.description.toLowerCase().includes(query) || a.tags.some(t => t.includes(query));
+        const matchesFilter = activeFilter === 'all' || a.tags.includes(activeFilter);
+        return matchesSearch && matchesFilter;
+      });
+      renderAgents(filtered);
+    }
+
+    searchInput.addEventListener('input', filterAgents);
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('active');
+          b.classList.add('text-[#6e6e73]', 'dark:text-[#a1a1a6]');
+        });
+        btn.classList.add('active');
+        btn.classList.remove('text-[#6e6e73]', 'dark:text-[#a1a1a6]');
+        activeFilter = btn.dataset.filter;
+        filterAgents();
+      });
+    });
+
+    renderAgents(agents);
+
+    // Scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

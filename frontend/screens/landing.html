@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentForge — The marketplace for portable AI agents</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'Segoe UI', 'Helvetica Neue', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    html { scroll-behavior: smooth; }
+    
+    /* Fade-in on scroll */
+    .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+    
+    /* Gradient text */
+    .gradient-text { background: linear-gradient(135deg, #1d1d1f 0%, #6e6e73 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .dark .gradient-text { background: linear-gradient(135deg, #f5f5f7 0%, #a1a1a6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    
+    /* Subtle gradient bg */
+    .hero-gradient { background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(0, 122, 255, 0.08), transparent); }
+    .dark .hero-gradient { background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(0, 122, 255, 0.12), transparent); }
+    
+    /* Feature icon glow */
+    .feature-icon { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .feature-card:hover .feature-icon { transform: scale(1.1); box-shadow: 0 0 30px rgba(0, 122, 255, 0.2); }
+    
+    /* Navbar */
+    .nav-blur { backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+    
+    /* Button hover */
+    .btn-primary { transition: all 0.3s ease; }
+    .btn-primary:hover { transform: scale(1.02); box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3); }
+    .btn-secondary { transition: all 0.3s ease; }
+    .btn-secondary:hover { background: rgba(0, 0, 0, 0.04); }
+    .dark .btn-secondary:hover { background: rgba(255, 255, 255, 0.08); }
+    
+    /* Step connector line */
+    .step-line { background: linear-gradient(180deg, #007aff, #5856d6); }
+    
+    /* Dark mode transition */
+    html { transition: background-color 0.3s ease, color 0.3s ease; }
+  </style>
+</head>
+<body class="font-sans bg-white dark:bg-black text-[#1d1d1f] dark:text-[#f5f5f7] overflow-x-hidden">
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 nav-blur bg-white/80 dark:bg-black/80 border-b border-transparent dark:border-white/10">
+    <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
+      <a href="index.html" class="text-[#1d1d1f] dark:text-[#f5f5f7] font-semibold text-sm tracking-tight">AgentForge</a>
+      <div class="hidden md:flex items-center gap-8 text-xs text-[#6e6e73] dark:text-[#a1a1a6]">
+        <a href="marketplace.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Marketplace</a>
+        <a href="upload.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Publish</a>
+        <a href="dashboard.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Dashboard</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <button id="darkToggle" class="text-[#6e6e73] dark:text-[#a1a1a6] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors" aria-label="Toggle dark mode">
+          <svg id="sunIcon" class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="4"/><path d="M10 1v2m0 14v2m-7-9H1m18 0h-2m-1.3-5.7l-1.4 1.4M5.7 14.3l-1.4 1.4m0-11.4l1.4 1.4m8.6 8.6l1.4 1.4M10 3.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13z" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+          <svg id="moonIcon" class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.3 13.3A8 8 0 017.7 2.7a8 8 0 109.6 10.6z"/></svg>
+        </button>
+        <a href="marketplace.html" class="bg-[#007aff] hover:bg-[#0077ed] text-white text-xs font-medium px-4 py-1.5 rounded-full transition-all">Explore</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero-gradient pt-32 pb-20 md:pt-44 md:pb-32">
+    <div class="max-w-[980px] mx-auto px-6 text-center">
+      <p class="fade-in text-sm font-medium text-[#6e6e73] dark:text-[#a1a1a6] tracking-wide uppercase mb-4">Introducing AgentForge</p>
+      <h1 class="fade-in fade-in-delay-1 text-5xl md:text-7xl lg:text-[80px] font-bold tracking-tight leading-[1.05] gradient-text mb-6">
+        The marketplace for<br>portable AI agents.
+      </h1>
+      <p class="fade-in fade-in-delay-2 text-lg md:text-xl text-[#6e6e73] dark:text-[#a1a1a6] max-w-2xl mx-auto leading-relaxed font-light">
+        Scan, package, and share AI agents across any environment. Powered by Gemma.
+      </p>
+      <div class="fade-in fade-in-delay-3 mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="marketplace.html" class="btn-primary bg-[#007aff] hover:bg-[#0077ed] text-white text-base font-medium px-8 py-3 rounded-full">Browse Agents</a>
+        <a href="upload.html" class="btn-secondary text-[#007aff] dark:text-[#2997ff] text-base font-medium px-8 py-3 rounded-full border border-[#007aff]/30 dark:border-[#2997ff]/30">Publish Yours</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visual Divider -->
+  <section class="py-8">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div class="fade-in rounded-2xl overflow-hidden bg-gradient-to-br from-[#f5f5f7] to-[#e8e8ed] dark:from-[#1c1c1e] dark:to-[#2c2c2e] aspect-video flex items-center justify-center">
+        <div class="text-center">
+          <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#007aff] to-[#5856d6] flex items-center justify-center">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
+          </div>
+          <p class="text-[#6e6e73] dark:text-[#a1a1a6] text-sm font-medium">AgentForge Platform Preview</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-20 md:py-32">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="fade-in text-3xl md:text-5xl font-bold tracking-tight mb-4">Built for developers.<br>Designed for everyone.</h2>
+        <p class="fade-in fade-in-delay-1 text-lg text-[#6e6e73] dark:text-[#a1a1a6] max-w-xl mx-auto font-light">Four pillars that make AgentForge the simplest way to share AI agents.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Feature 1 -->
+        <div class="fade-in feature-card group bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-3xl p-8 md:p-10 transition-all hover:scale-[1.01]">
+          <div class="feature-icon w-14 h-14 rounded-2xl bg-gradient-to-br from-[#007aff] to-[#0055d4] flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+          </div>
+          <h3 class="text-xl md:text-2xl font-semibold mb-2">Portable Manifests</h3>
+          <p class="text-[#6e6e73] dark:text-[#a1a1a6] leading-relaxed font-light">Every agent ships with a self-describing manifest. Dependencies, config, and runtime requirements all in one portable file.</p>
+        </div>
+        <!-- Feature 2 -->
+        <div class="fade-in fade-in-delay-1 feature-card group bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-3xl p-8 md:p-10 transition-all hover:scale-[1.01]">
+          <div class="feature-icon w-14 h-14 rounded-2xl bg-gradient-to-br from-[#34c759] to-[#248a3d] flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <h3 class="text-xl md:text-2xl font-semibold mb-2">Zero-Config Setup</h3>
+          <p class="text-[#6e6e73] dark:text-[#a1a1a6] leading-relaxed font-light">No environment wrangling. AgentForge handles dependency resolution and runtime configuration automatically.</p>
+        </div>
+        <!-- Feature 3 -->
+        <div class="fade-in feature-card group bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-3xl p-8 md:p-10 transition-all hover:scale-[1.01]">
+          <div class="feature-icon w-14 h-14 rounded-2xl bg-gradient-to-br from-[#af52de] to-[#8944ab] flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
+          </div>
+          <h3 class="text-xl md:text-2xl font-semibold mb-2">Gemma-Powered</h3>
+          <p class="text-[#6e6e73] dark:text-[#a1a1a6] leading-relaxed font-light">Built on Google Gemma for intelligent agent scanning, packaging recommendations, and quality scoring.</p>
+        </div>
+        <!-- Feature 4 -->
+        <div class="fade-in fade-in-delay-1 feature-card group bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-3xl p-8 md:p-10 transition-all hover:scale-[1.01]">
+          <div class="feature-icon w-14 h-14 rounded-2xl bg-gradient-to-br from-[#ff9500] to-[#c93400] flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          </div>
+          <h3 class="text-xl md:text-2xl font-semibold mb-2">One-Click Deploy</h3>
+          <p class="text-[#6e6e73] dark:text-[#a1a1a6] leading-relaxed font-light">Import any agent into your environment with a single command. Or deploy directly to cloud with one click.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-20 md:py-32 bg-[#f5f5f7] dark:bg-[#1c1c1e]">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="fade-in text-3xl md:text-5xl font-bold tracking-tight mb-4">Three steps. Zero friction.</h2>
+        <p class="fade-in fade-in-delay-1 text-lg text-[#6e6e73] dark:text-[#a1a1a6] max-w-xl mx-auto font-light">From code to marketplace in under a minute.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+        <div class="fade-in text-center">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-white dark:bg-[#2c2c2e] flex items-center justify-center text-2xl font-bold text-[#007aff] dark:text-[#2997ff] shadow-sm">1</div>
+          <h3 class="text-xl font-semibold mb-2">Scan</h3>
+          <p class="text-[#6e6e73] dark:text-[#a1a1a6] font-light leading-relaxed">Point AgentForge at your workspace. It discovers agents, dependencies, and configurations automatically.</p>
+        </div>
+        <div class="fade-in fade-in-delay-1 text-center">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-white dark:bg-[#2c2c2e] flex items-center justify-center text-2xl font-bold text-[#007aff] dark:text-[#2997ff] shadow-sm">2</div>
+          <h3 class="text-xl font-semibold mb-2">Package</h3>
+          <p class="text-[#6e6e73] dark:text-[#a1a1a6] font-light leading-relaxed">Agents are bundled into portable manifests with everything needed to run them anywhere.</p>
+        </div>
+        <div class="fade-in fade-in-delay-2 text-center">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-white dark:bg-[#2c2c2e] flex items-center justify-center text-2xl font-bold text-[#007aff] dark:text-[#2997ff] shadow-sm">3</div>
+          <h3 class="text-xl font-semibold mb-2">Share</h3>
+          <p class="text-[#6e6e73] dark:text-[#a1a1a6] font-light leading-relaxed">Publish to the marketplace. Anyone can discover, import, and deploy your agent with one click.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-20 md:py-32">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="fade-in">
+          <p class="text-4xl md:text-5xl font-bold tracking-tight text-[#007aff] dark:text-[#2997ff]">2.4k</p>
+          <p class="text-sm text-[#6e6e73] dark:text-[#a1a1a6] mt-1 font-medium">Agents Published</p>
+        </div>
+        <div class="fade-in fade-in-delay-1">
+          <p class="text-4xl md:text-5xl font-bold tracking-tight text-[#007aff] dark:text-[#2997ff]">18k</p>
+          <p class="text-sm text-[#6e6e73] dark:text-[#a1a1a6] mt-1 font-medium">Downloads</p>
+        </div>
+        <div class="fade-in fade-in-delay-2">
+          <p class="text-4xl md:text-5xl font-bold tracking-tight text-[#007aff] dark:text-[#2997ff]">340</p>
+          <p class="text-sm text-[#6e6e73] dark:text-[#a1a1a6] mt-1 font-medium">Contributors</p>
+        </div>
+        <div class="fade-in fade-in-delay-3">
+          <p class="text-4xl md:text-5xl font-bold tracking-tight text-[#007aff] dark:text-[#2997ff]">99.8%</p>
+          <p class="text-sm text-[#6e6e73] dark:text-[#a1a1a6] mt-1 font-medium">Uptime</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 md:py-32">
+    <div class="max-w-[680px] mx-auto px-6 text-center">
+      <h2 class="fade-in text-3xl md:text-5xl font-bold tracking-tight mb-4">Ready to ship your agent?</h2>
+      <p class="fade-in fade-in-delay-1 text-lg text-[#6e6e73] dark:text-[#a1a1a6] mb-10 font-light">Join the growing community of developers building portable AI agents.</p>
+      <div class="fade-in fade-in-delay-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="upload.html" class="btn-primary bg-[#007aff] hover:bg-[#0077ed] text-white text-base font-medium px-8 py-3 rounded-full">Get Started</a>
+        <a href="marketplace.html" class="btn-secondary text-[#007aff] dark:text-[#2997ff] text-base font-medium px-8 py-3 rounded-full">View Marketplace</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#d2d2d7] dark:border-[#424245] py-8">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-[#6e6e73] dark:text-[#a1a1a6]">Copyright &copy; 2026 AgentForge. All rights reserved.</p>
+        <div class="flex items-center gap-6 text-xs text-[#6e6e73] dark:text-[#a1a1a6]">
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Privacy</a>
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Terms</a>
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode toggle
+    const toggle = document.getElementById('darkToggle');
+    toggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    });
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Scroll-triggered fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

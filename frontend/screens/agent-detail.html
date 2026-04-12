@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Detail — AgentForge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'Segoe UI', 'Helvetica Neue', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    html { scroll-behavior: smooth; }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .nav-blur { backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+    .btn-primary { transition: all 0.3s ease; }
+    .btn-primary:hover { transform: scale(1.02); box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3); }
+    .metric-card { transition: transform 0.2s ease; }
+    .metric-card:hover { transform: translateY(-2px); }
+    .code-block { font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; }
+    html { transition: background-color 0.3s ease, color 0.3s ease; }
+  </style>
+</head>
+<body class="font-sans bg-white dark:bg-black text-[#1d1d1f] dark:text-[#f5f5f7] overflow-x-hidden">
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 nav-blur bg-white/80 dark:bg-black/80 border-b border-transparent dark:border-white/10">
+    <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
+      <a href="index.html" class="text-[#1d1d1f] dark:text-[#f5f5f7] font-semibold text-sm tracking-tight">AgentForge</a>
+      <div class="hidden md:flex items-center gap-8 text-xs text-[#6e6e73] dark:text-[#a1a1a6]">
+        <a href="marketplace.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Marketplace</a>
+        <a href="upload.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Publish</a>
+        <a href="dashboard.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Dashboard</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <button id="darkToggle" class="text-[#6e6e73] dark:text-[#a1a1a6] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">
+          <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="4"/><path d="M10 1v2m0 14v2m-7-9H1m18 0h-2m-1.3-5.7l-1.4 1.4M5.7 14.3l-1.4 1.4m0-11.4l1.4 1.4m8.6 8.6l1.4 1.4" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.3 13.3A8 8 0 017.7 2.7a8 8 0 109.6 10.6z"/></svg>
+        </button>
+        <a href="marketplace.html" class="bg-[#007aff] hover:bg-[#0077ed] text-white text-xs font-medium px-4 py-1.5 rounded-full transition-all">Explore</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <section class="pt-20 pb-2 md:pt-24">
+    <div class="max-w-[980px] mx-auto px-6">
+      <nav class="flex items-center gap-2 text-xs text-[#6e6e73] dark:text-[#a1a1a6]">
+        <a href="index.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Home</a>
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+        <a href="marketplace.html" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Marketplace</a>
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+        <span id="breadcrumbName" class="text-[#1d1d1f] dark:text-[#f5f5f7]">Loading...</span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Hero -->
+  <section class="pt-8 pb-12 md:pt-12 md:pb-16">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div class="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+        <!-- Icon -->
+        <div class="fade-in w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gradient-to-br from-[#007aff] to-[#5856d6] flex items-center justify-center text-4xl md:text-5xl shrink-0 shadow-lg">
+          <span id="agentIcon">⌨</span>
+        </div>
+        <!-- Info -->
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <h1 id="agentName" class="text-3xl md:text-5xl font-bold tracking-tight">CodePilot</h1>
+            <span id="agentVersion" class="text-xs font-medium px-3 py-1 rounded-full bg-[#007aff]/10 text-[#007aff] dark:text-[#2997ff]">v2.1.0</span>
+          </div>
+          <p id="agentAuthor" class="text-sm text-[#6e6e73] dark:text-[#a1a1a6] mb-4">by <span class="text-[#1d1d1f] dark:text-[#f5f5f7] font-medium">sarah-dev</span></p>
+          <p id="agentDescription" class="text-lg text-[#6e6e73] dark:text-[#a1a1a6] font-light leading-relaxed max-w-2xl mb-6">
+            Autonomous coding agent that writes, reviews, and refactors code across multiple languages. Built with Gemma for intelligent code understanding.
+          </p>
+          <div class="flex flex-wrap items-center gap-3">
+            <button onclick="importAgent()" class="btn-primary bg-[#007aff] hover:bg-[#0077ed] text-white text-sm font-medium px-6 py-2.5 rounded-full flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+              Import Agent
+            </button>
+            <button class="text-sm font-medium px-6 py-2.5 rounded-full border border-[#d2d2d7] dark:border-[#424245] hover:bg-[#f5f5f7] dark:hover:bg-[#1c1c1e] transition-all flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg>
+              Share
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics -->
+  <section class="pb-12">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="fade-in metric-card bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-2xl p-5 text-center">
+          <p class="text-2xl md:text-3xl font-bold text-[#007aff] dark:text-[#2997ff]" id="metricDownloads">3.4k</p>
+          <p class="text-xs text-[#6e6e73] dark:text-[#a1a1a6] mt-1">Downloads</p>
+        </div>
+        <div class="fade-in fade-in-delay-1 metric-card bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-2xl p-5 text-center">
+          <p class="text-2xl md:text-3xl font-bold text-[#34c759]" id="metricRating">4.8</p>
+          <p class="text-xs text-[#6e6e73] dark:text-[#a1a1a6] mt-1">Rating</p>
+        </div>
+        <div class="fade-in fade-in-delay-2 metric-card bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-2xl p-5 text-center">
+          <p class="text-2xl md:text-3xl font-bold text-[#af52de]" id="metricSize">2.4 MB</p>
+          <p class="text-xs text-[#6e6e73] dark:text-[#a1a1a6] mt-1">Package Size</p>
+        </div>
+        <div class="fade-in fade-in-delay-3 metric-card bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-2xl p-5 text-center">
+          <p class="text-2xl md:text-3xl font-bold text-[#ff9500]" id="metricUpdated">2d ago</p>
+          <p class="text-xs text-[#6e6e73] dark:text-[#a1a1a6] mt-1">Last Updated</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabs Content -->
+  <section class="pb-20">
+    <div class="max-w-[980px] mx-auto px-6">
+      <!-- Tab Nav -->
+      <div class="flex gap-6 border-b border-[#d2d2d7] dark:border-[#424245] mb-8">
+        <button class="tab-btn text-sm font-medium pb-3 border-b-2 border-[#007aff] dark:border-[#2997ff] text-[#1d1d1f] dark:text-[#f5f5f7]" data-tab="overview">Overview</button>
+        <button class="tab-btn text-sm font-medium pb-3 border-b-2 border-transparent text-[#6e6e73] dark:text-[#a1a1a6] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors" data-tab="manifest">Manifest</button>
+        <button class="tab-btn text-sm font-medium pb-3 border-b-2 border-transparent text-[#6e6e73] dark:text-[#a1a1a6] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors" data-tab="usage">Usage</button>
+      </div>
+
+      <!-- Overview Tab -->
+      <div id="tab-overview" class="tab-content">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="md:col-span-2">
+            <h3 class="text-xl font-semibold mb-4">About this agent</h3>
+            <p id="aboutText" class="text-[#6e6e73] dark:text-[#a1a1a6] font-light leading-relaxed mb-6">
+              CodePilot is an autonomous coding agent that leverages Gemma's code understanding capabilities to write, review, and refactor code. It supports Python, JavaScript, TypeScript, Go, Rust, and more.
+            </p>
+            <h3 class="text-xl font-semibold mb-4">Capabilities</h3>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-start gap-3 text-[#6e6e73] dark:text-[#a1a1a6] font-light">
+                <svg class="w-5 h-5 text-[#34c759] shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Multi-language code generation and completion
+              </li>
+              <li class="flex items-start gap-3 text-[#6e6e73] dark:text-[#a1a1a6] font-light">
+                <svg class="w-5 h-5 text-[#34c759] shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Automated code review with security analysis
+              </li>
+              <li class="flex items-start gap-3 text-[#6e6e73] dark:text-[#a1a1a6] font-light">
+                <svg class="w-5 h-5 text-[#34c759] shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Intelligent refactoring with test preservation
+              </li>
+              <li class="flex items-start gap-3 text-[#6e6e73] dark:text-[#a1a1a6] font-light">
+                <svg class="w-5 h-5 text-[#34c759] shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Context-aware code explanations and documentation
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-4">Tags</h3>
+            <div id="tagList" class="flex flex-wrap gap-2 mb-8">
+              <span class="text-xs font-medium px-3 py-1.5 rounded-full bg-[#007aff]/10 text-[#007aff] dark:text-[#2997ff]">coding</span>
+              <span class="text-xs font-medium px-3 py-1.5 rounded-full bg-[#34c759]/10 text-[#34c759]">automation</span>
+              <span class="text-xs font-medium px-3 py-1.5 rounded-full bg-[#af52de]/10 text-[#af52de]">gemma</span>
+              <span class="text-xs font-medium px-3 py-1.5 rounded-full bg-[#ff9500]/10 text-[#ff9500]">multi-lang</span>
+            </div>
+            <h3 class="text-xl font-semibold mb-4">Requirements</h3>
+            <div id="reqList" class="space-y-2 text-sm text-[#6e6e73] dark:text-[#a1a1a6] font-light">
+              <p>Python 3.10+</p>
+              <p>Gemma 2.0 Runtime</p>
+              <p>4GB RAM minimum</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manifest Tab -->
+      <div id="tab-manifest" class="tab-content hidden">
+        <div class="bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-2xl p-6 md:p-8 overflow-x-auto">
+          <pre class="code-block text-xs md:text-sm text-[#6e6e73] dark:text-[#a1a1a6] leading-relaxed"><code>{
+  "name": "codepilot",
+  "version": "2.1.0",
+  "description": "Autonomous coding agent",
+  "author": "sarah-dev",
+  "runtime": {
+    "engine": "gemma-2.0",
+    "python": ">=3.10",
+    "memory": "4GB"
+  },
+  "capabilities": [
+    "code-generation",
+    "code-review",
+    "refactoring",
+    "documentation"
+  ],
+  "dependencies": {
+    "gemma-runtime": "^2.0.0",
+    "ast-parser": "^1.4.0",
+    "security-scanner": "^0.9.2"
+  },
+  "manifest_version": "1.0.0"
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- Usage Tab -->
+      <div id="tab-usage" class="tab-content hidden">
+        <h3 class="text-xl font-semibold mb-4">Quick Start</h3>
+        <div class="bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-2xl p-6 md:p-8 mb-8 overflow-x-auto">
+          <pre class="code-block text-xs md:text-sm text-[#6e6e73] dark:text-[#a1a1a6] leading-relaxed"><code><span class="text-[#6e6e73] dark:text-[#86868b]"># Import via AgentForge CLI</span>
+<span class="text-[#007aff] dark:text-[#2997ff]">agentforge</span> import codepilot
+
+<span class="text-[#6e6e73] dark:text-[#86868b]"># Or via API</span>
+<span class="text-[#007aff] dark:text-[#2997ff]">curl</span> -X POST /api/package/import \
+  -d '{"name": "codepilot"}'
+
+<span class="text-[#6e6e73] dark:text-[#86868b]"># Run the agent</span>
+<span class="text-[#007aff] dark:text-[#2997ff]">agentforge</span> run codepilot \
+  --task "refactor utils.py"</code></pre>
+        </div>
+        <h3 class="text-xl font-semibold mb-4">Configuration</h3>
+        <p class="text-[#6e6e73] dark:text-[#a1a1a6] font-light leading-relaxed">After importing, create a <code class="bg-[#f5f5f7] dark:bg-[#1c1c1e] px-2 py-0.5 rounded text-xs font-mono">.agentforge.yaml</code> in your project root to customize the agent's behavior, allowed tools, and output format.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast notification -->
+  <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[#1d1d1f] dark:bg-[#f5f5f7] text-white dark:text-[#1d1d1f] px-6 py-3 rounded-2xl text-sm font-medium shadow-xl opacity-0 translate-y-4 transition-all duration-300 pointer-events-none z-50">
+    Agent imported successfully!
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#d2d2d7] dark:border-[#424245] py-8">
+    <div class="max-w-[980px] mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-[#6e6e73] dark:text-[#a1a1a6]">Copyright &copy; 2026 AgentForge. All rights reserved.</p>
+        <div class="flex items-center gap-6 text-xs text-[#6e6e73] dark:text-[#a1a1a6]">
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Privacy</a>
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">Terms</a>
+          <a href="#" class="hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode
+    const toggle = document.getElementById('darkToggle');
+    toggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    });
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Agent data (would come from /api/agents/{name})
+    const agents = {
+      'CodePilot': { icon: '⌨', version: 'v2.1.0', author: 'sarah-dev', desc: 'Autonomous coding agent that writes, reviews, and refactors code across multiple languages. Built with Gemma for intelligent code understanding.', downloads: '3.4k', rating: '4.8', size: '2.4 MB', updated: '2d ago', tags: ['coding','automation','gemma','multi-lang'] },
+      'DataLens': { icon: '📊', version: 'v1.8.2', author: 'analytics-ai', desc: 'Data analysis agent that generates insights, visualizations, and reports from datasets.', downloads: '2.8k', rating: '4.6', size: '5.1 MB', updated: '5d ago', tags: ['data','visualization','gemma'] },
+      'DeployBot': { icon: '🚀', version: 'v3.0.1', author: 'ops-team', desc: 'Zero-downtime deployment agent for containerized applications and serverless functions.', downloads: '1.9k', rating: '4.9', size: '1.8 MB', updated: '1d ago', tags: ['devops','cloud','automation'] },
+      'ResearchGPT': { icon: '🔬', version: 'v1.2.0', author: 'lab-ai', desc: 'Academic research agent that summarizes papers, finds citations, and drafts literature reviews.', downloads: '4.1k', rating: '4.7', size: '8.3 MB', updated: '3d ago', tags: ['research','nlp','gemma'] },
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const agentName = params.get('name') || 'CodePilot';
+    const agent = agents[agentName] || agents['CodePilot'];
+
+    document.getElementById('breadcrumbName').textContent = agentName;
+    document.getElementById('agentName').textContent = agentName;
+    document.getElementById('agentIcon').textContent = agent.icon;
+    document.getElementById('agentVersion').textContent = agent.version;
+    document.getElementById('agentAuthor').innerHTML = `by <span class="text-[#1d1d1f] dark:text-[#f5f5f7] font-medium">${agent.author}</span>`;
+    document.getElementById('agentDescription').textContent = agent.desc;
+    document.getElementById('aboutText').textContent = agent.desc;
+    document.getElementById('metricDownloads').textContent = agent.downloads;
+    document.getElementById('metricRating').textContent = agent.rating;
+    document.getElementById('metricSize').textContent = agent.size;
+    document.getElementById('metricUpdated').textContent = agent.updated;
+    document.title = `${agentName} — AgentForge`;
+
+    const tagColors = { coding: '#007aff', automation: '#ff9500', data: '#34c759', visualization: '#af52de', devops: '#ff3b30', cloud: '#5856d6', research: '#34c759', nlp: '#af52de', gemma: '#ff9500', 'multi-lang': '#007aff', testing: '#ff3b30' };
+    document.getElementById('tagList').innerHTML = agent.tags.map(t => 
+      `<span class="text-xs font-medium px-3 py-1.5 rounded-full" style="background: ${(tagColors[t]||'#007aff')}15; color: ${tagColors[t]||'#007aff'}">${t}</span>`
+    ).join('');
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('border-[#007aff]','dark:border-[#2997ff]','text-[#1d1d1f]','dark:text-[#f5f5f7]'); b.classList.add('border-transparent','text-[#6e6e73]','dark:text-[#a1a1a6]'); });
+        btn.classList.add('border-[#007aff]','dark:border-[#2997ff]','text-[#1d1d1f]','dark:text-[#f5f5f7]');
+        btn.classList.remove('border-transparent','text-[#6e6e73]','dark:text-[#a1a1a6]');
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+        document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+      });
+    });
+
+    // Import action
+    function importAgent() {
+      const toast = document.getElementById('toast');
+      toast.classList.remove('opacity-0','translate-y-4');
+      toast.classList.add('opacity-100','translate-y-0');
+      setTimeout(() => { toast.classList.add('opacity-0','translate-y-4'); toast.classList.remove('opacity-100','translate-y-0'); }, 2500);
+    }
+
+    // Scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — AgentForge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'Segoe UI', 'Helvetica Neue', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    html { scroll-behavior: smooth; }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+    .stat-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+    .dark .stat-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+    .agent-row { transition: background-color 0.15s ease; }
+    .agent-row:hover { background-color: rgba(0,0,0,0.02); }
+    .dark .agent-row:hover { background-color: rgba(255,255,255,0.03); }
+    .bar { transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  </style>
+</head>
+<body class="bg-white dark:bg-black text-gray-900 dark:text-gray-100 font-sans min-h-screen">
+
+  <!-- Nav -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-800/60">
+    <div class="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+      <a href="index.html" class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">AgentForge</a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-gray-500 dark:text-gray-400">
+        <a href="index.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">Home</a>
+        <a href="marketplace.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">Marketplace</a>
+        <a href="dashboard.html" class="text-gray-900 dark:text-white font-medium">Dashboard</a>
+        <a href="upload.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">Upload</a>
+      </div>
+      <button onclick="document.documentElement.classList.toggle('dark')" class="text-xs px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Toggle dark</button>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto px-6 pt-24 pb-20">
+
+    <!-- Header -->
+    <div class="mb-10 fade-in">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-2">Dashboard</h1>
+      <p class="text-lg text-gray-500 dark:text-gray-400">Your agent activity at a glance.</p>
+    </div>
+
+    <!-- KPI Cards -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+      <div class="stat-card bg-gray-50 dark:bg-gray-900/50 rounded-2xl p-6 fade-in fade-in-delay-1">
+        <p class="text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Installed Agents</p>
+        <p class="text-4xl font-bold tracking-tight">12</p>
+      </div>
+      <div class="stat-card bg-gray-50 dark:bg-gray-900/50 rounded-2xl p-6 fade-in fade-in-delay-2">
+        <p class="text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Total Downloads</p>
+        <p class="text-4xl font-bold tracking-tight">1.2k</p>
+      </div>
+      <div class="stat-card bg-gray-50 dark:bg-gray-900/50 rounded-2xl p-6 fade-in fade-in-delay-3">
+        <p class="text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Published</p>
+        <p class="text-4xl font-bold tracking-tight">3</p>
+      </div>
+      <div class="stat-card bg-gray-50 dark:bg-gray-900/50 rounded-2xl p-6 fade-in fade-in-delay-4">
+        <p class="text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">Avg. Rating</p>
+        <p class="text-4xl font-bold tracking-tight">4.9</p>
+      </div>
+    </section>
+
+    <div class="grid lg:grid-cols-3 gap-10">
+
+      <!-- Agents Table -->
+      <div class="lg:col-span-2 fade-in">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-xl font-semibold tracking-tight">My Agents</h2>
+          <a href="marketplace.html" class="text-sm text-blue-500 dark:text-blue-400 hover:underline">Browse all</a>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-900/30 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800/60">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="border-b border-gray-100 dark:border-gray-800/60">
+                <th class="px-6 py-3.5 text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-gray-500">Name</th>
+                <th class="px-6 py-3.5 text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-gray-500 hidden sm:table-cell">Status</th>
+                <th class="px-6 py-3.5 text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-gray-500 hidden md:table-cell">Last Used</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 dark:divide-gray-800/40">
+              <tr class="agent-row cursor-pointer" onclick="location.href='agent-detail.html'">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 dark:text-blue-400 text-sm font-bold">A</div>
+                    <div>
+                      <p class="font-medium text-sm">Aether-9</p>
+                      <p class="text-xs text-gray-400 dark:text-gray-500">v2.1.4</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 hidden sm:table-cell">
+                  <span class="inline-flex items-center gap-1.5 text-xs text-green-600 dark:text-green-400"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>Online</span>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-400 dark:text-gray-500 hidden md:table-cell">2 hours ago</td>
+              </tr>
+              <tr class="agent-row cursor-pointer" onclick="location.href='agent-detail.html'">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-purple-500 dark:text-purple-400 text-sm font-bold">C</div>
+                    <div>
+                      <p class="font-medium text-sm">CyberSentinel</p>
+                      <p class="text-xs text-gray-400 dark:text-gray-500">v1.8.0</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 hidden sm:table-cell">
+                  <span class="inline-flex items-center gap-1.5 text-xs text-green-600 dark:text-green-400"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>Online</span>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-400 dark:text-gray-500 hidden md:table-cell">15 min ago</td>
+              </tr>
+              <tr class="agent-row cursor-pointer" onclick="location.href='agent-detail.html'">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm font-bold">L</div>
+                    <div>
+                      <p class="font-medium text-sm">LogiStream</p>
+                      <p class="text-xs text-gray-400 dark:text-gray-500">v3.0.2</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 hidden sm:table-cell">
+                  <span class="inline-flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600"></span>Offline</span>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-400 dark:text-gray-500 hidden md:table-cell">3 days ago</td>
+              </tr>
+              <tr class="agent-row cursor-pointer" onclick="location.href='agent-detail.html'">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-500 dark:text-orange-400 text-sm font-bold">C</div>
+                    <div>
+                      <p class="font-medium text-sm">Chromatica AI</p>
+                      <p class="text-xs text-gray-400 dark:text-gray-500">v1.2.0</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 hidden sm:table-cell">
+                  <span class="inline-flex items-center gap-1.5 text-xs text-green-600 dark:text-green-400"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>Online</span>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-400 dark:text-gray-500 hidden md:table-cell">Just now</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-8 fade-in fade-in-delay-2">
+
+        <!-- Usage Chart -->
+        <div class="bg-gray-50 dark:bg-gray-900/30 rounded-2xl p-6 border border-gray-100 dark:border-gray-800/60">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="font-semibold text-sm">Usage Activity</h3>
+            <span class="text-xs text-gray-400 dark:text-gray-500">Last 7 days</span>
+          </div>
+          <div class="flex items-end justify-between h-28 gap-2">
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-t-sm bar" style="height: 40%"></div>
+              <span class="text-[10px] text-gray-400">M</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-t-sm bar" style="height: 65%"></div>
+              <span class="text-[10px] text-gray-400">T</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-t-sm bar" style="height: 55%"></div>
+              <span class="text-[10px] text-gray-400">W</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-blue-500 dark:bg-blue-400 rounded-t-sm bar" style="height: 85%"></div>
+              <span class="text-[10px] text-gray-900 dark:text-white font-medium">T</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-t-sm bar" style="height: 45%"></div>
+              <span class="text-[10px] text-gray-400">F</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-t-sm bar" style="height: 70%"></div>
+              <span class="text-[10px] text-gray-400">S</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-t-sm bar" style="height: 92%"></div>
+              <span class="text-[10px] text-gray-400">S</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-gray-50 dark:bg-gray-900/30 rounded-2xl p-6 border border-gray-100 dark:border-gray-800/60">
+          <h3 class="font-semibold text-sm mb-5">Recent Activity</h3>
+          <div class="space-y-5">
+            <div class="flex gap-3">
+              <div class="w-7 h-7 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              </div>
+              <div>
+                <p class="text-sm"><span class="font-medium">Aether-9</span> updated to v2.1.4</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">2 minutes ago</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="w-7 h-7 rounded-full bg-green-50 dark:bg-green-900/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-3.5 h-3.5 text-green-500 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div>
+                <p class="text-sm"><span class="font-medium">CyberSentinel</span> deployed</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">14 minutes ago</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="w-7 h-7 rounded-full bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              </div>
+              <div>
+                <p class="text-sm"><span class="font-medium">New agent</span> published to marketplace</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">1 hour ago</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="w-7 h-7 rounded-full bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+              </div>
+              <div>
+                <p class="text-sm"><span class="font-medium">LogiStream</span> reached 500 downloads</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">3 hours ago</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-100 dark:border-gray-800/60 py-8">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
+      <p>&copy; 2026 AgentForge. Built for the Gemma 4 Hackathon.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-gray-900 dark:hover:text-white transition-colors">GitHub</a>
+        <a href="#" class="hover:text-gray-900 dark:hover:text-white transition-colors">Docs</a>
+        <a href="#" class="hover:text-gray-900 dark:hover:text-white transition-colors">Kaggle</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

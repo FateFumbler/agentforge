@@ -1,0 +1,96 @@
+{
+  "artifact_files": {
+    "scan.json": {
+      "path": "/tmp/agentforge-demo/artifacts/scan.json",
+      "size": 3071,
+      "sha256": "3235338aa33f6ff79b02eca98fd7f18c494855e7023c5399f09bcb76b31ee811"
+    },
+    "manifest.json": {
+      "path": "/tmp/agentforge-demo/artifacts/manifest.json",
+      "size": 3051,
+      "sha256": "2b2f1a05bfcf9411b5e6c3d83ca2e0bc9a94f0030903553df7fd83cfe6070537"
+    },
+    "preview.json": {
+      "path": "/tmp/agentforge-demo/artifacts/preview.json",
+      "size": 764,
+      "sha256": "33b5269a6d8d120654c5c89de98f6ab3cc9bc1d7719a29bbbbbbcb86a6484031"
+    },
+    "agentforge-package.zip": {
+      "path": "/tmp/agentforge-demo/artifacts/agentforge-package.zip",
+      "size": 3009,
+      "sha256": "e20ada0031c8d4bd0c7daf78259db81e8a891dc79befac5ac547525e442b2734"
+    }
+  },
+  "imported_workspace_tree": [
+    {
+      "path": "AGENTS.md",
+      "is_dir": false,
+      "size": 31
+    },
+    {
+      "path": "MEMORY.md",
+      "is_dir": false,
+      "size": 44
+    },
+    {
+      "path": "README.md",
+      "is_dir": false,
+      "size": 112
+    },
+    {
+      "path": "SOUL.md",
+      "is_dir": false,
+      "size": 49
+    },
+    {
+      "path": "TOOLS.md",
+      "is_dir": false,
+      "size": 27
+    },
+    {
+      "path": "USER.md",
+      "is_dir": false,
+      "size": 65
+    },
+    {
+      "path": "config.yaml",
+      "is_dir": false,
+      "size": 27
+    },
+    {
+      "path": "docs",
+      "is_dir": true,
+      "size": 0
+    },
+    {
+      "path": "docs/manifest-notes.md",
+      "is_dir": false,
+      "size": 103
+    },
+    {
+      "path": "tests",
+      "is_dir": true,
+      "size": 0
+    },
+    {
+      "path": "tests/test_agent.py",
+      "is_dir": false,
+      "size": 96
+    },
+    {
+      "path": "tests/test_docs.py",
+      "is_dir": false,
+      "size": 151
+    },
+    {
+      "path": "workspace_scripts",
+      "is_dir": true,
+      "size": 0
+    },
+    {
+      "path": "workspace_scripts/agent.py",
+      "is_dir": false,
+      "size": 68
+    }
+  ]
+}

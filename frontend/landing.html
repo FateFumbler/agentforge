@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgentForge | The Kinetic Laboratory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-primary-fixed-variant": "#005e64",
+                "surface-container-low": "#10131a",
+                "inverse-on-surface": "#52555c",
+                "inverse-surface": "#f9f9ff",
+                "surface-container-lowest": "#000000",
+                "outline": "#73757d",
+                "secondary": "#c180ff",
+                "on-tertiary": "#002e52",
+                "tertiary-fixed-dim": "#51a7fe",
+                "primary": "#8ff5ff",
+                "on-secondary": "#33005b",
+                "tertiary-fixed": "#72b5ff",
+                "surface-variant": "#22262f",
+                "surface-container": "#161a21",
+                "primary-fixed-dim": "#00deec",
+                "on-secondary-fixed-variant": "#7511c3",
+                "on-primary": "#005d63",
+                "secondary-fixed": "#e5c6ff",
+                "tertiary-container": "#4aa2f9",
+                "surface-dim": "#0b0e14",
+                "on-surface-variant": "#a9abb3",
+                "surface-container-high": "#1c2028",
+                "on-primary-container": "#005359",
+                "tertiary-dim": "#4aa2f9",
+                "error": "#ff716c",
+                "background": "#0b0e14",
+                "surface-tint": "#8ff5ff",
+                "error-dim": "#d7383b",
+                "secondary-dim": "#9c48ea",
+                "surface-container-highest": "#22262f",
+                "tertiary": "#65afff",
+                "on-secondary-fixed": "#4f0089",
+                "on-tertiary-fixed": "#001930",
+                "primary-fixed": "#00eefc",
+                "on-tertiary-container": "#00213e",
+                "on-background": "#ecedf6",
+                "surface": "#0b0e14",
+                "error-container": "#9f0519",
+                "on-error-container": "#ffa8a3",
+                "on-surface": "#ecedf6",
+                "on-secondary-container": "#e9cdff",
+                "surface-bright": "#282c36",
+                "outline-variant": "#45484f",
+                "on-tertiary-fixed-variant": "#003b68",
+                "secondary-container": "#6f00be",
+                "on-primary-fixed": "#003f43",
+                "primary-container": "#00eefc",
+                "inverse-primary": "#006a71",
+                "primary-dim": "#00deec",
+                "on-error": "#490006",
+                "secondary-fixed-dim": "#dbb4ff"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "fontFamily": {
+                "headline": ["Space Grotesk"],
+                "body": ["Manrope"],
+                "label": ["Space Grotesk"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .rim-light {
+            box-shadow: inset 1px 1px 0px 0px rgba(143, 245, 255, 0.1);
+        }
+        .hero-glow {
+            background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.08) 0%, rgba(193, 128, 255, 0.05) 30%, transparent 70%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#0b0e14]/70 backdrop-blur-xl border-b border-white/5 shadow-[0_0_20px_rgba(0,240,255,0.05)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-[#00F0FF] font-headline">AgentForge</div>
+<div class="hidden md:flex gap-8 font-headline tracking-tight text-sm uppercase">
+<a class="text-gray-400 hover:text-[#00F0FF] transition-colors duration-300" href="#">Marketplace</a>
+<a class="text-gray-400 hover:text-[#00F0FF] transition-colors duration-300" href="#">Features</a>
+<a class="text-gray-400 hover:text-[#00F0FF] transition-colors duration-300" href="#">Pricing</a>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary-container font-label font-bold text-sm uppercase px-6 py-2.5 rounded-sm active:scale-95 transition-transform">
+                Get Started
+            </button>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="relative min-h-[921px] flex items-center justify-center overflow-hidden px-8">
+<div class="absolute inset-0 hero-glow"></div>
+<div class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-7">
+<h1 class="font-headline font-bold text-6xl md:text-8xl tracking-tighter leading-tight mb-6">
+                        Build. Share.<br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Deploy AI Agents</span>
+</h1>
+<p class="font-body text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed">
+                        Harness the power of Gemma-powered portable agents for your next-gen workflows. Engineered for precision, built for scale.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-[#00F0FF] text-on-primary-fixed font-label font-bold text-sm uppercase px-8 py-4 rounded-sm hover:brightness-110 transition-all active:scale-95">
+                            Browse Marketplace
+                        </button>
+<button class="bg-surface-container-highest/50 border border-secondary/30 backdrop-blur-md text-secondary font-label font-bold text-sm uppercase px-8 py-4 rounded-sm hover:bg-secondary/10 transition-all active:scale-95">
+                            Upload Agent
+                        </button>
+</div>
+</div>
+<div class="lg:col-span-5 hidden lg:block">
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 blur-2xl group-hover:blur-3xl transition-all"></div>
+<div class="relative bg-surface-container-high rim-light rounded-xl p-6 border border-white/5 aspect-square flex items-center justify-center">
+<img alt="AI Core Visualization" class="w-full h-full object-cover rounded-lg opacity-80 group-hover:opacity-100 transition-opacity" data-alt="abstract cybernetic core glowing with cyan and purple filaments floating in a dark technological void high-end 3D render" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnF5PZimOeZkdTipDrPgH1D0tJIq3PO2I0bmIRLlUQDSX59F3BMyL860HpsWGLi2DLa21i_5FwRGk97pFhSlSafHOgyr_NuPV1IGuXxOgxt8JctWxpVubl9VLqTX7Wrdg4HWBwZZMGZuqtBXzqlZvDmVo8j_SLymM7xwRCELodxHpHdvGRgNSr-37wcQX2bRPyc8M_TwdA8RDoc_serW1TrXMReJI0ycPuQ66OLqAm7xowiJDMIHOa9NHGU57gfpPTJazsnW-ENtY"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Feature Section -->
+<section class="py-32 px-8 bg-surface-container-low relative">
+<div class="max-w-7xl mx-auto">
+<div class="mb-20 text-left">
+<h2 class="font-headline text-4xl font-bold tracking-tight text-primary mb-4">Precision Components</h2>
+<p class="text-on-surface-variant max-w-md">Modular architectures designed for the modern agentic stack.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Feature 1 -->
+<div class="group p-8 bg-surface-container/70 backdrop-blur-xl rounded-lg rim-light border border-white/5 hover:scale-[1.02] transition-all duration-300">
+<div class="w-12 h-12 mb-8 flex items-center justify-center rounded bg-primary/10">
+<span class="material-symbols-outlined text-primary text-3xl">architecture</span>
+</div>
+<h3 class="font-headline font-bold text-xl mb-4">Portable Manifests</h3>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed">
+                            Standardized, cross-platform agent definitions that travel between environments without friction.
+                        </p>
+</div>
+<!-- Feature 2 -->
+<div class="group p-8 bg-surface-container/70 backdrop-blur-xl rounded-lg rim-light border border-white/5 hover:scale-[1.02] transition-all duration-300">
+<div class="w-12 h-12 mb-8 flex items-center justify-center rounded bg-secondary/10">
+<span class="material-symbols-outlined text-secondary text-3xl">bolt</span>
+</div>
+<h3 class="font-headline font-bold text-xl mb-4">Zero-Config Setup</h3>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed">
+                            Instant deployment with no overhead. From discovery to production in under sixty seconds.
+                        </p>
+</div>
+<!-- Feature 3 -->
+<div class="group p-8 bg-surface-container/70 backdrop-blur-xl rounded-lg rim-light border border-white/5 hover:scale-[1.02] transition-all duration-300">
+<div class="w-12 h-12 mb-8 flex items-center justify-center rounded bg-tertiary/10">
+<span class="material-symbols-outlined text-tertiary text-3xl">memory</span>
+</div>
+<h3 class="font-headline font-bold text-xl mb-4">Gemma-Powered</h3>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed">
+                            Optimized for Google's open-weights model family, ensuring high performance on any hardware.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- How-It-Works Section -->
+<section class="py-32 px-8 overflow-hidden">
+<div class="max-w-7xl mx-auto">
+<div class="grid lg:grid-cols-12 gap-16 items-center">
+<div class="lg:col-span-4">
+<h2 class="font-headline text-5xl font-bold tracking-tighter mb-6 leading-tight">The Kinetic<br/><span class="text-secondary">Workflow</span></h2>
+<p class="text-on-surface-variant mb-12">Witness the transformation from raw requirements to fully autonomous technical agents.</p>
+<div class="space-y-4">
+<div class="flex items-center gap-4 text-xs font-label uppercase tracking-widest text-primary">
+<span class="h-px w-8 bg-primary"></span>
+<span>Forge Sequence Initiated</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-8 relative">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+<!-- Step 1 -->
+<div class="relative p-6 bg-surface-container-high rounded-sm rim-light border border-white/5">
+<div class="text-xs font-label text-primary-fixed mb-4 opacity-50">PHASE 01</div>
+<div class="mb-6">
+<span class="material-symbols-outlined text-4xl text-primary" data-weight="fill">target</span>
+</div>
+<h4 class="font-headline font-bold text-xl mb-2">Scan</h4>
+<p class="text-sm text-on-surface-variant">Analyze your workflow requirements and identify integration nodes.</p>
+</div>
+<!-- Step 2 -->
+<div class="relative p-6 bg-surface-container-high rounded-sm rim-light border border-white/5 translate-y-8">
+<div class="text-xs font-label text-primary-fixed mb-4 opacity-50">PHASE 02</div>
+<div class="mb-6">
+<span class="material-symbols-outlined text-4xl text-secondary" data-weight="fill">hub</span>
+</div>
+<h4 class="font-headline font-bold text-xl mb-2">Generate</h4>
+<p class="text-sm text-on-surface-variant">Stitch together the perfect agent manifest with precision-matched logic.</p>
+</div>
+<!-- Step 3 -->
+<div class="relative p-6 bg-surface-container-high rounded-sm rim-light border border-white/5 translate-y-16">
+<div class="text-xs font-label text-primary-fixed mb-4 opacity-50">PHASE 03</div>
+<div class="mb-6">
+<span class="material-symbols-outlined text-4xl text-primary" data-weight="fill">rocket_launch</span>
+</div>
+<h4 class="font-headline font-bold text-xl mb-2">Deploy</h4>
+<p class="text-sm text-on-surface-variant">Go live in seconds with one-click orchestration to your target stack.</p>
+</div>
+</div>
+<!-- Connecting Line - Decorative -->
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/10 -rotate-12 blur-sm hidden md:block"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Call to Action -->
+<section class="py-32 px-8">
+<div class="max-w-5xl mx-auto text-center p-16 relative overflow-hidden rounded-xl bg-surface-container">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5"></div>
+<div class="relative z-10">
+<h2 class="font-headline font-bold text-4xl md:text-5xl mb-8 tracking-tight">Ready to enter the forge?</h2>
+<p class="font-body text-on-surface-variant mb-12 max-w-xl mx-auto">Join the collective of developers building the next generation of portable, high-performance AI agents.</p>
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary-container font-label font-bold text-sm uppercase px-10 py-5 rounded-sm hover:scale-105 transition-all">
+                        Initialize Your Workspace
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-8 bg-[#000000] border-t border-white/5">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-6">
+<div class="font-['Space_Grotesk'] font-bold text-[#00F0FF] text-xl">AgentForge</div>
+<div class="flex flex-wrap justify-center gap-8 font-['Manrope'] text-xs text-gray-500">
+<a class="hover:text-[#00F0FF] transition-all opacity-80 hover:opacity-100" href="#">Documentation</a>
+<a class="hover:text-[#00F0FF] transition-all opacity-80 hover:opacity-100" href="#">Privacy</a>
+<a class="hover:text-[#00F0FF] transition-all opacity-80 hover:opacity-100" href="#">Terms</a>
+<a class="hover:text-[#00F0FF] transition-all opacity-80 hover:opacity-100" href="#">Twitter</a>
+<a class="hover:text-[#00F0FF] transition-all opacity-80 hover:opacity-100" href="#">GitHub</a>
+</div>
+<div class="font-['Manrope'] text-xs text-gray-500">
+                © 2024 AgentForge. The Kinetic Laboratory.
+            </div>
+</div>
+</footer>
+</body></html>
